@@ -7,7 +7,7 @@ if (session_status() == PHP_SESSION_NONE) {
 // connecting to database 
 $db = mysqli_connect('localhost', 'root', 'mindfire', 'dashboard');
 
-//checking connection
+//checking connection else showing error message.
 if (!$db) {
-	echo "Couldnt connect to the db";    
+	echo "Could'nt connect to the db";    
 }

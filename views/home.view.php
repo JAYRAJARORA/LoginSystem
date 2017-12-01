@@ -1,11 +1,12 @@
 <?php 
+// making connections to execute queries and checking sessions
 require __DIR__ . '/../app/dbConnection.php';
 if(isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])){
-    $query = "SELECT firstname FROM users WHERE id='" . $_SESSION['user_id'] . "'";
+    $query = "SELECT firstname,lastname FROM users WHERE id='" . $_SESSION['user_id'] . "'";
     $user = mysqli_query($db, $query);
-
-    var_dump($user); exit;
+    $row = $user->fetch_assoc();
 }
+// styling the page
 require 'layouts/header.php';
 
 ?>
@@ -13,8 +14,12 @@ require 'layouts/header.php';
 <div class="container">
     <div class="row">
         <div class=" col-md-offset-4 col-md-4">
-            <h2>Sign In</h2>
-            
+            <h1>Your Profile</h1>
+            <!-- checking the values before displaying -->
+            <?php if(isset($_SESSION['user_id'])&& !empty($_SESSION['user_id'])){?>
+            <p>Welcome  <span class="text-info">  <?php  echo $row['firstname']." ".$row['lastname']; ?></span> 
+            </p>
+            <?php }?>
         </div>
     </div>
 </div>

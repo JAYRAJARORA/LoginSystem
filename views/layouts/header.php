@@ -1,3 +1,10 @@
+<?php 
+// checking sessions
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,12 +19,21 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Dashboard</a>
+                <a class="navbar-brand" href="/../views/home.view.php">Dashboard</a>
             </div>
+            <!-- displaying the detailed navigation bar only if user has logged in -->
+            <?php if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
+            ?>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="#">Edit Profile</a></li>
-                <li><a href="#">View Tweets</a></li>
+                <li><a href="/../views/updateProfile.view.php">Edit Profile</a></li>
+                <li><a href="/../../app/twitterapi/getTweets.php">View Tweets</a></li>
             </ul>
+            <!-- logout button at the right for logging out the user -->
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/../../app/logout.php?logout=1"><span class="glyphicon glyphicon-log-out">Logout</span></a>
+                </li>
+            </ul>
+            <?php } ?> 
         </div>
     </nav>
