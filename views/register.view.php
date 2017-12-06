@@ -1,22 +1,28 @@
 <?php 
 // starting session 
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+if(isset($_SESSION))
+session_start();
 // rendering style in the page
 require 'layouts/header.php';
-// checking for errors if present destroy the session after saving it.
+// checking for errors if present destroy all the session variables after saving errors.
 if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
     $errors = $_SESSION['errors'];
     session_destroy();
 }
 ?>
 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup Page</title>
+    <script type="text/javascript" src="js/register.js"></script>
+</head>
+<body>
 <div class="container">
     <div class="row">
         <div class=" col-md-offset-4 col-md-4">
             <h2>Sign Up</h2>
-            <form method="post" action="/../app/register.php" name="register">
+            <form method="post" action="/../app/register.php" name="register" onsubmit="">
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" class="form-control" id="username" 
@@ -77,7 +83,17 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
                         <?php echo $errors['password']; ?></label></div>
                     <?php } ?>
                 </div>
-                
+                <div class="form-group">
+                    <label for="pwd">Confirm Password:</label>
+                    <input type="password" class="form-control" id="pwd" 
+                    placeholder="Enter password again" name="password_check">
+                    <?php 
+                    if (isset($errors['password_check']) && !empty($errors['password_check'])) { 
+                    ?>
+                    <div class="has-error"><label class="control-label">
+                        <?php echo $errors['password_check']; ?></label></div>
+                    <?php } ?>
+                </div>
                 <!-- link for signin for already registered user -->
                 <div class="form-group form-inline">
                     <button type="submit" class="btn btn-default" name="signup_button">Submit</button>
@@ -92,3 +108,6 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
 <?php
 require 'layouts/footer.php';
 ?>
+
+</body>
+</html>

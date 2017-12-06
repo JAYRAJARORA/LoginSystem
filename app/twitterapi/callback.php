@@ -2,7 +2,11 @@
 session_start();
 // load the file to make connections to the twitteroauth library
 require 'twitteroauth/autoload.php';
+// library required
 use Abraham\TwitterOAuth\TwitterOAuth;
+define('CONSUMER_KEY', 'UJ5j8DHdpy2LiFTAi3efopos0'); 
+define('CONSUMER_SECRET', 'ZZ3IwigGTTKDoGYweDSJ0Ifx66vLl8XPxHfk6tUS8Z8nKRstDB');
+
 // checking the user access token and secret key which is coming in the request
 if (isset($_REQUEST['oauth_verifier'], $_REQUEST['oauth_token']) &&
 	$_REQUEST['oauth_token'] == $_SESSION['oauth_token']) {

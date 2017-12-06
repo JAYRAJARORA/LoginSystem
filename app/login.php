@@ -1,25 +1,32 @@
  <?php
  //  making connection to execute queries on the db
-require 'dbConnection.php'; 
+require 'dbConnection.php';
 //  checking if form has been submitted
-if( isset($_POST['username'])) { 
+if(isset($_POST['username'])) { 
 	$username = mysqli_escape_string($db,$_POST['username']);
 	$password = mysqli_escape_string($db,$_POST['password']);
-	$errors =array();//errors array to store different errors for different fields
+	$errors = array();//errors array to store different errors for different fields
 	// validate username
-	function validateUsername($db,&$errors,$username){
+	function validateUsername($db,&$errors,$username) {
 		$err ='';
 		if(empty($username)) {
 			$err .= 'Username is required';
+		} 
+		else {
+			$query = "SELECT username FROM users WHERE username = '$username'";
+			$check = mysqli_query($db,$query);
+			if(!$check || !$check->num_rows){
+				$err .= "Username doesnt exists";
+			}
 		}
 		if (''!=$err) {
-		$errors['username'] = $err;
+			$errors['username'] = $err;
 		}
  	}
  	// validate password
-	function validatePassword($db,&$errors,$password){
+	function validatePassword($db,&$errors,$password) {
 		$err = '';
-		if(empty($password)){
+		if(empty($password)) {
 			$err .= 'Password is required';
 		}
 		if (''!=$err) {
@@ -55,6 +62,4 @@ if( isset($_POST['username'])) {
 		$_SESSION['login_errors'] = $errors;
 		header('Location: /../views/login.view.php');
 	}
-
-
 }

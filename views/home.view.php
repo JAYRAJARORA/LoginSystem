@@ -1,7 +1,8 @@
 <?php 
 // making connections to execute queries and checking sessions
 require __DIR__ . '/../app/dbConnection.php';
-if(isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])){
+
+if(isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
     $query = "SELECT firstname,lastname FROM users WHERE id='" . $_SESSION['user_id'] . "'";
     $user = mysqli_query($db, $query);
     $row = $user->fetch_assoc();

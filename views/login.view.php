@@ -1,6 +1,7 @@
 <?php 
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+// starting the session if the session doesnt exist 
+if(!isset($_SESSION)) { 
+    session_start(); 
 }
 // styling the page with a navigation bar at the header
 require 'layouts/header.php';
@@ -24,12 +25,13 @@ if (isset($_SESSION['user_id'])) {
                     <label for="username">Username:</label>
                     <input type="text" class="form-control" id="username" 
                     placeholder="Enter username" name="username">
-                    <?php if(isset($errors['username']) && !empty($errors['username'])) {
-                    ?><div class="has-error"><label class="control-label">
+                    <?php if(isset($errors['username']) && !empty($errors['username'])) {?>
+                     <!-- checking for errors if any,showing errors -->
+                    <div class="has-error"><label class="control-label">
                         <?php echo $errors['username']; ?></label></div>
                     <?php } ?>
-
                 </div>
+                
                 <div class="form-group">
                     <label for="password">Password:</label>
                     <input type="password" class="form-control" id="pwd" 

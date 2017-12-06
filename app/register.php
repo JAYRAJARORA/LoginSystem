@@ -3,14 +3,16 @@
 require 'dbConnection.php';
 //  checking if form has been submitted
 if (isset($_POST['username'])) {
-    $username       = htmlentities(mysqli_real_escape_string($db, $_POST['username']));
-    $email          = htmlentities(mysqli_real_escape_string($db, $_POST['email']));
-    $password       = htmlentities(mysqli_real_escape_string($db, $_POST['password']));
-    $first_name     = htmlentities(mysqli_real_escape_string($db, $_POST['firstname']));
-    $last_name      = htmlentities(mysqli_real_escape_string($db, $_POST['lastname']));
+    $username = htmlentities(mysqli_real_escape_string($db, $_POST['username']));
+    $email = htmlentities(mysqli_real_escape_string($db, $_POST['email']));
+    $password = htmlentities(mysqli_real_escape_string($db, $_POST['password']));
+    $first_name = htmlentities(mysqli_real_escape_string($db, $_POST['firstname']));
+    $last_name = htmlentities(mysqli_real_escape_string($db, $_POST['lastname']));
+    // to confirm password
+    $password_check = htmlentities(mysqli_real_escape_string($db, $_POST['password_check']));
 
     $errors = array();//errors array to store different errors for different fields
-    class errorsCheck {
+    class ErrorsCheck {
         // validate username
         function validateUsername($db, &$errors, $username) {
         	$err = '';
@@ -20,8 +22,8 @@ if (isset($_POST['username'])) {
         	if (empty($username)) {
             	$err .= 'Username is required<br>';
         	}
-            else if(preg_match("/^[0-9a-zA-Z_]{5,}$/", $username) === 0) {
-                $err .= 'Username must be bigger than 5 chars and contain only 
+            else if(preg_match("/^[0-9a-zA-Z_]{3,}$/", $username) === 0) {
+                $err .= 'Username must be bigger than 3 chars and contain only 
                 digits, letters and underscore';
             }
             // checking if user already exists
@@ -29,8 +31,7 @@ if (isset($_POST['username'])) {
         	$check = mysqli_query($db, $check_query_name);
         	if ($check && $check->num_rows) {
             	$err .= 'Username already exists';
-        	}    	
-    	
+        	}    
     		if ('' !== $err) {
     			$errors['username'] = $err;
     		}
@@ -89,8 +90,8 @@ if (isset($_POST['username'])) {
         	}
          }
         
-         // checking for strong password
-        function validatePassword($db, &$errors, $password){
+        // checking the password
+        function validatePassword($db, &$errors, $password) {
         	$err = '';
         	if (empty($password)) {
             	$err .= 'Password is required<br>';
@@ -106,15 +107,28 @@ if (isset($_POST['username'])) {
         		$errors['password'] = $err;
         	}
         }
+        // confirm the password 
+        function validatePasswordCheck($db, &$errors, $password, $password_check) {
+            $err = '';
+            // if old password is incorrect then first correct it
+            if(!array_key_exists('password', $errors)) {
+                if($password!==$password_check) {
+                    $err .= 'The two passwords do not match';
+                }
+            }
+            if('' !==$err) {
+                $errors['password_check'] = $err;
+            }
+        }
     }
     // calling various function of the error class
-    $ob = new errorsCheck();
+    $ob = new ErrorsCheck();
     $ob->validateUsername($db, $errors, $username);
     $ob->validateFirstname($db, $errors, $first_name);
     $ob->validateLastname($db, $errors, $last_name);
     $ob->validatePassword($db, $errors, $password);
     $ob->validateEmail($db, $errors, $email);
-
+    $ob->validatePasswordCheck($db, $errors, $password, $password_check);
 
     // checking for different errors if not set the session variable accordingly
     if(empty($errors['username'])) {

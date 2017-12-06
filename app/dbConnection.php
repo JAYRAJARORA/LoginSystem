@@ -1,7 +1,7 @@
 <?php
-// starting the session 
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+// starting the session if the session doesnt exist 
+if(!isset($_SESSION)) { 
+    session_start(); 
 }
 
 // connecting to database 
