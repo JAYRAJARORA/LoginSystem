@@ -138,6 +138,8 @@ if (isset($_POST['submit'])) {
         }   
         $query_status = mysqli_query($db, $query);
         if($query_status) {
+            // echo '<script>alert("Profile updated successfully")</script>';
+            // echo '<script>window.location("/../views/home.view.php")</script>';
             header('Location:/../views/home.view.php');
         }
     }

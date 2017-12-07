@@ -19,7 +19,7 @@ if (isset($_SESSION['user_id'])) {
 <html>
 <head>
     <title>Login Page</title>
-    <script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript" src="/../public/js/login.js"></script>
 </head>
 <body>
 <div class="container">

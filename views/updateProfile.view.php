@@ -13,7 +13,10 @@ if(isset($_SESSION['user_id'])&& !empty($_SESSION['user_id'])) {
     $_SESSION['previous_first_name'] = $row['firstname'];
     $_SESSION['previous_last_name'] = $row['lastname'];
     $_SESSION['previous_email'] = $row['email'];
-    }  
+    }
+else {
+  header('Location: login.view.php');
+}  
 // rendering style in the page
 // checking for errors if present destroy the session after saving it.
 if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
@@ -109,7 +112,6 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
           </div>
         </form>
       </div>
-  </div>
 </div>
 <hr>
 </body>

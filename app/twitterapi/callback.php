@@ -1,7 +1,10 @@
 <?php
 session_start();
 // load the file to make connections to the twitteroauth library
-require 'twitteroauth/autoload.php';
+require __DIR__.'/../../vendor/autoload.php';
+if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+	header('Location:/../../views/login.view.php');
+}
 // library required
 use Abraham\TwitterOAuth\TwitterOAuth;
 define('CONSUMER_KEY', 'UJ5j8DHdpy2LiFTAi3efopos0'); 

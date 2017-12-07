@@ -15,7 +15,7 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
 <html>
 <head>
     <title>Signup Page</title>
-    <script type="text/javascript" src="js/register.js"></script>
+    <script type="text/javascript" src="/../public/js/register.js"></script>
 </head>
 <body>
 <div class="container">
@@ -33,7 +33,7 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
                     <?php 
                     if (isset($errors['username']) && !empty($errors['username'])) { 
                     ?>
-                    <div class="has-error"><label class="control-label" id="username">
+                    <div class="has-error"><label class="control-label" id="usererror">
                         <?php echo $errors['username']; ?></label></div>
                     <?php } ?>
                 </div>

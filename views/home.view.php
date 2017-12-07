@@ -7,6 +7,9 @@ if(isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
     $user = mysqli_query($db, $query);
     $row = $user->fetch_assoc();
 }
+else {
+    header('Location: login.view.php');
+}
 // styling the page
 require 'layouts/header.php';
 
