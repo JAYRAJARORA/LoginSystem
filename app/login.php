@@ -3,8 +3,8 @@
 require 'dbConnection.php';
 //  checking if form has been submitted
 if(isset($_POST['username'])) { 
-	$username = mysqli_escape_string($db,$_POST['username']);
-	$password = mysqli_escape_string($db,$_POST['password']);
+	$username = htmlentities(mysqli_escape_string($db,$_POST['username']));
+	$password = htmlentities(mysqli_escape_string($db,$_POST['password']));
 	$errors = array();//errors array to store different errors for different fields
 	// validate username
 	function validateUsername($db,&$errors,$username) {
@@ -13,7 +13,7 @@ if(isset($_POST['username'])) {
 			$err .= 'Username is required';
 		} 
 		else {
-			$query = "SELECT username FROM users WHERE username = '$username'";
+			$query = "SELECT username FROM users WHERE username = '$username' LIMIT 1";
 			$check = mysqli_query($db,$query);
 			if(!$check || !$check->num_rows){
 				$err .= "Username doesnt exists";
@@ -37,7 +37,7 @@ if(isset($_POST['username'])) {
 	function validateCombination($db,&$errors,$username,$password) {
 		$err = '';
 		$password = md5($password);
-		$query = "SELECT id FROM users WHERE username='$username' AND password='$password'";
+		$query = "SELECT id FROM users WHERE username='$username' AND password='$password' LIMIT 1";
 		$query_status = mysqli_query($db,$query);
 		if(!$query_status || !$query_status->num_rows) {
 					$err .= 'Wrong Username or Password';

@@ -6,11 +6,12 @@ require __DIR__ . '/layouts/header.php';
 require __DIR__.'/../app/dbConnection.php'; 
 // filling the edit profile fields with old fields
 if(isset($_SESSION['user_id'])&& !empty($_SESSION['user_id'])) {
-    $query = "SELECT firstname,lastname,email,password FROM users WHERE id='" . $_SESSION['user_id'] . "'";
+    $query = "SELECT firstname,lastname,email FROM users WHERE id='" . $_SESSION['user_id'] . "'
+    LIMIT 1";
     $user = mysqli_query($db, $query);
     $row = $user->fetch_assoc();
-    $_SESSION['previous_firstname'] = $row['firstname'];
-    $_SESSION['previous_lastname'] = $row['lastname'];
+    $_SESSION['previous_first_name'] = $row['firstname'];
+    $_SESSION['previous_last_name'] = $row['lastname'];
     $_SESSION['previous_email'] = $row['email'];
     }  
 // rendering style in the page
@@ -43,7 +44,7 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
           <div class="form-group">
             <label class="col-lg-3 control-label">First name:</label>
             <div class="col-lg-8">
-              <input class="form-control" name="firstname" type="text" value="<?php if(isset($_SESSION['previous_firstname'])){echo $_SESSION['previous_firstname'];}?>">
+              <input class="form-control" name="firstname" type="text" value="<?php if(isset($_SESSION['previous_first_name'])){echo $_SESSION['previous_first_name'];}?>">
                     <!--  checking for errors if any,showing errors using inline php -->
                 <?php if (isset($errors['firstname']) && !empty($errors['firstname'])) { ?>
                 <div class="has-error"><label class="control-label">
@@ -55,7 +56,7 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
           <div class="form-group">
             <label class="col-lg-3 control-label">Last name:</label>
             <div class="col-lg-8">
-              <input class="form-control" name="lastname" type="text" value="<?php if(isset($_SESSION['previous_lastname'])){echo $_SESSION['previous_lastname'];}?>">
+              <input class="form-control" name="lastname" type="text" value="<?php if(isset($_SESSION['previous_last_name'])){echo $_SESSION['previous_last_name'];}?>">
               <?php if (isset($errors['lastname']) && !empty($errors['lastname'])) { ?>
               <div class="has-error"><label class="control-label">
                 <?php echo $errors['lastname']; ?></label>
@@ -77,7 +78,8 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
           <div class="form-group">
             <label class="col-md-3 control-label">OldPassword:</label>
             <div class="col-md-8">
-              <input class="form-control" name="old_password" type="password" value="">
+              <input class="form-control" name="old_password" placeholder="Enter old Password" 
+              type="password" value="">
               <?php if (isset($errors['old_password']) && !empty($errors['old_password'])) { ?>
                     <div class="has-error"><label class="control-label">
                          <?php echo $errors['old_password']; ?></label>
@@ -88,7 +90,8 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
           <div class="form-group">
             <label class="col-md-3 control-label">NewPassword:</label>
             <div class="col-md-8">
-              <input class="form-control" name="new_password" type="password" value="">
+              <input class="form-control" name="new_password" type="password" 
+              placeholder="Enter New Password" value="">
               <?php if (isset($errors['new_password']) && !empty($errors['new_password'])) { ?>
                     <div class="has-error"><label class="control-label">
                          <?php echo $errors['new_password']; ?></label>

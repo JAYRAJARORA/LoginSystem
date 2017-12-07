@@ -22,7 +22,8 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
     <div class="row">
         <div class=" col-md-offset-4 col-md-4">
             <h2>Sign Up</h2>
-            <form method="post" action="/../app/register.php" name="register" onsubmit="">
+            <form name="register" method="post" action="/../app/register.php" 
+            onsubmit="return formValidation()">
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" class="form-control" id="username" 
@@ -32,7 +33,7 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
                     <?php 
                     if (isset($errors['username']) && !empty($errors['username'])) { 
                     ?>
-                    <div class="has-error"><label class="control-label">
+                    <div class="has-error"><label class="control-label" id="username">
                         <?php echo $errors['username']; ?></label></div>
                     <?php } ?>
                 </div>

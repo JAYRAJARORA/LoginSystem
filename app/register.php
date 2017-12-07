@@ -2,7 +2,7 @@
 //  making connection to execute queries on the db
 require 'dbConnection.php';
 //  checking if form has been submitted
-if (isset($_POST['username'])) {
+if (isset($_POST['signup_button'])) {
     $username = htmlentities(mysqli_real_escape_string($db, $_POST['username']));
     $email = htmlentities(mysqli_real_escape_string($db, $_POST['email']));
     $password = htmlentities(mysqli_real_escape_string($db, $_POST['password']));
@@ -10,7 +10,6 @@ if (isset($_POST['username'])) {
     $last_name = htmlentities(mysqli_real_escape_string($db, $_POST['lastname']));
     // to confirm password
     $password_check = htmlentities(mysqli_real_escape_string($db, $_POST['password_check']));
-
     $errors = array();//errors array to store different errors for different fields
     class ErrorsCheck {
         // validate username
@@ -35,7 +34,6 @@ if (isset($_POST['username'])) {
     		if ('' !== $err) {
     			$errors['username'] = $err;
     		}
-
         }
         // validate firstname of the user
         function validateFirstname($db, &$errors, $first_name) {

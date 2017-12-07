@@ -15,12 +15,18 @@ if (isset($_SESSION['user_id'])) {
     header('Location: home.view.php');
 }
 ?>
-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <script type="text/javascript" src="js/login.js"></script>
+</head>
+<body>
 <div class="container">
     <div class="row">
         <div class=" col-md-offset-4 col-md-4">
             <h2>Sign In</h2>
-            <form method="post" action="/../app/login.php">
+            <form name="login" onsubmit="return formValidation()" method="post" action="/../app/login.php">
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" class="form-control" id="username" 
@@ -64,3 +70,6 @@ if (isset($_SESSION['user_id'])) {
 <?php
 require 'layouts/footer.php';
 ?>
+</body>
+</html>
+

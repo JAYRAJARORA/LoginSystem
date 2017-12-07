@@ -7,10 +7,14 @@ if (isset($_POST['submit'])) {
     $first_name = htmlentities(mysqli_real_escape_string($db, $_POST['firstname']));
     $last_name = htmlentities(mysqli_real_escape_string($db, $_POST['lastname']));
     $errors = array();//errors array to store different errors for different fields
-    
+    // checking if no data entered so retrun back to the home page without any database hit
+    if($email===$_SESSION['previous_email'] && $first_name===$_SESSION['previous_first_name'] &&
+        $last_name === $_SESSION['previous_last_name'] && $old_password==='') {
+        header('Location/../views/home.view.php');
+    }
     // retrieving username to retrieve the password of that user id.
     // retrieving email to check email entered is not same as previous email(for checking email already exists)
-    $query = "SELECT username,email FROM users WHERE id='" . $_SESSION['user_id'] . "'";
+    $query = "SELECT username,email FROM users WHERE id='" . $_SESSION['user_id'] . "'LIMIT 1";
     $user = mysqli_query($db, $query);
     $row = $user->fetch_assoc();
     $username = $row['username'];
@@ -74,7 +78,7 @@ if (isset($_POST['submit'])) {
             $err = '';
             $password = $old_password;
             $password = md5($password);
-            $query = "SELECT id FROM users WHERE username='$username' AND password='$password'";
+            $query = "SELECT id FROM users WHERE username='$username' AND password='$password' LIMIT 1";
             $query_status = mysqli_query($db,$query);
             if(!$query_status || !$query_status->num_rows) {
                         $err .= 'Wrong Password Entered';
@@ -125,12 +129,12 @@ if (isset($_POST['submit'])) {
         // storing the hash of the password
             $password = md5($new_password);
             $query = "UPDATE users SET firstname='$first_name',lastname='$last_name'
-            ,email='$email',password='$password' WHERE id='" . $_SESSION['user_id'] . "'";
+            ,email='$email',password='$password' WHERE id='" . $_SESSION['user_id'] . "' LIMIT 1";
         }
         else {
             // if user doesnt want to change password
             $query = "UPDATE users SET firstname='$first_name',lastname='$last_name'
-            ,email='$email' WHERE id='" . $_SESSION['user_id'] . "'";
+            ,email='$email' WHERE id='" . $_SESSION['user_id'] . "' LIMIT 1";
         }   
         $query_status = mysqli_query($db, $query);
         if($query_status) {
