@@ -1,5 +1,10 @@
 <?php
 require 'dbConnection.php';
+
+if(!isset($_SESSION['user_id'])) {
+    header('Location:/../../views/login.view.php');
+}
+
 if (isset($_POST['submit'])) {
     $email = htmlentities(mysqli_real_escape_string($db, $_POST['email']));
     $old_password = htmlentities(mysqli_real_escape_string($db, $_POST['old_password']));
@@ -8,8 +13,11 @@ if (isset($_POST['submit'])) {
     $last_name = htmlentities(mysqli_real_escape_string($db, $_POST['lastname']));
     $errors = array();//errors array to store different errors for different fields
     // checking if no data entered so retrun back to the home page without any database hit
-    if($email===$_SESSION['previous_email'] && $first_name===$_SESSION['previous_first_name'] &&
-        $last_name === $_SESSION['previous_last_name'] && $old_password==='') {
+    if ($email===$_SESSION['previous_email'] 
+    	&& $first_name===$_SESSION['previous_first_name'] 
+    	&& $last_name === $_SESSION['previous_last_name'] 
+    	&& $old_password===''
+    ) {
         header('Location/../views/home.view.php');
     }
     // retrieving username to retrieve the password of that user id.
@@ -20,11 +28,13 @@ if (isset($_POST['submit'])) {
     $username = $row['username'];
     $previous_email = $row['email'];
 
-    class errorsCheck {
+    class ErrorsCheck 
+    {
         //validate firstname of the user
-        function validateFirstname($db, &$errors, $first_name) {
+        function validateFirstname($db, &$errors, $first_name) 
+        {
         	$err = '';
-        	if(strlen($first_name)>40) {
+        	if (strlen($first_name)>40) {
             	$err.='Maximum length exceeded<br>';
         	}
         	if (empty($first_name)) {
@@ -35,8 +45,10 @@ if (isset($_POST['submit'])) {
         	       
             }
         }
+
         //  validate lastname of the user
-        function validateLastname($db, &$errors, $last_name) {
+        function validateLastname($db, &$errors, $last_name) 
+        {
         	$err = '';
             if(strlen($last_name)>40) {
             	$err .= 'Maximum length exceeded<br>';
@@ -48,8 +60,10 @@ if (isset($_POST['submit'])) {
         		$errors['lastname'] = $err;
         	}
         }
+
         // validate email id of the user
-        function validateEmail($db, &$errors,$email,$previous_email) {
+        function validateEmail($db, &$errors,$email,$previous_email) 
+        {
         	$err = '';
         	if(strlen($email)>40){
             	$err .= 'Maximum length exceeded<br>';
@@ -73,8 +87,10 @@ if (isset($_POST['submit'])) {
             	}
             }
         }
+
         // checking for the old password
-        function validateOldPassword($db, &$errors, $username, $old_password) {
+        function validateOldPassword($db, &$errors, $username, $old_password) 
+        {
             $err = '';
             $password = $old_password;
             $password = md5($password);
@@ -85,19 +101,19 @@ if (isset($_POST['submit'])) {
                         $errors['old_password'] = $err;
             }
         }
+
         // checking for new password
-        function validateNewPassword($db, &$errors, $new_password) {
+        function validateNewPassword($db, &$errors, $new_password) 
+        {
             // if old password is incorrect then first correct it
-        	if(!array_key_exists('old_password', $errors)) {
+        	if (!array_key_exists('old_password', $errors)) {
                 $err = '';
                 $password = $new_password;
             	if (empty($password)) {
                 	$err .= 'Password is required<br>';
-            	}
-            	else if(strlen($password)>32) {
+            	} else if(strlen($password)>32) {
                 	$err .= 'Maximum length exceeded';
-            	}
-                else if(!preg_match("/^.*(?=.{8,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/", $password)) {
+            	} else if(!preg_match("/^.*(?=.{8,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/", $password)) {
                     $err .= 'Password must be at least 8 characters and must contain 
                     at least one lower case letter, one upper case letter and one digit';
                 }
@@ -108,7 +124,7 @@ if (isset($_POST['submit'])) {
         }
     }
     // calling various function of the error class
-    $ob = new errorsCheck();
+    $ob = new ErrorsCheck();
     $ob->validateFirstname($db, $errors, $first_name);
     $ob->validateLastname($db, $errors, $last_name);
     $ob->validateEmail($db, $errors, $email,$previous_email);
@@ -122,16 +138,14 @@ if (isset($_POST['submit'])) {
     if ($errors) {	
     	$_SESSION['errors'] = $errors;
     	header('Location: /../views/updateProfile.view.php');
-    }
-    else{
+    } else {
         // if user also wants to change password
-        if(!empty($old_password)) {
+        if (!empty($old_password)) {
         // storing the hash of the password
             $password = md5($new_password);
             $query = "UPDATE users SET firstname='$first_name',lastname='$last_name'
             ,email='$email',password='$password' WHERE id='" . $_SESSION['user_id'] . "' LIMIT 1";
-        }
-        else {
+        } else {
             // if user doesnt want to change password
             $query = "UPDATE users SET firstname='$first_name',lastname='$last_name'
             ,email='$email' WHERE id='" . $_SESSION['user_id'] . "' LIMIT 1";
@@ -143,9 +157,9 @@ if (isset($_POST['submit'])) {
             header('Location:/../views/home.view.php');
         }
     }
-}
-// hitting cancels reloads the current page so that all fields are reset.
-else if(isset($_POST['cancel'])) {
+} elseif(isset($_POST['cancel'])) {
+	// hitting cancels reloads the current page so that all fields are reset.
     header("Refresh:0");
-}
+} 
 ?>
+

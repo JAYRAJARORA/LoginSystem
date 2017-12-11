@@ -15,6 +15,7 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
 <html>
 <head>
     <title>Signup Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="/../public/js/register.js"></script>
 </head>
 <body>
@@ -23,7 +24,7 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
         <div class=" col-md-offset-4 col-md-4">
             <h2>Sign Up</h2>
             <form name="register" method="post" action="/../app/register.php" 
-            onsubmit="return formValidation()">
+            onsubmit="return formValidation();">
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" class="form-control" id="username" 
@@ -61,21 +62,66 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
                         <?php echo $errors['lastname']; ?></label></div>
                     <?php } ?>
                 </div>
+                
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" class="form-control" id="email" 
-                    placeholder="Enter email" maxlength="40" name="email"
-                    value="<?php if(isset($_SESSION['email'])){echo $_SESSION['email'];}?>">
-                    <?php 
-                    if (isset($errors['email']) && !empty($errors['email'])) { 
-                    ?>
-                    <div class="has-error"><label class="control-label">
-                        <?php echo $errors['email']; ?></label></div>
-                    <?php } ?>
+                        placeholder="Enter email" maxlength="40" name="email"
+                        value="<?php if(isset($_SESSION['email'])){echo $_SESSION['email'];}?>">
+                        <?php 
+                        if (isset($errors['email']) && !empty($errors['email'])) { 
+                        ?>
+                        <div class="has-error"><label class="control-label">
+                            <?php echo $errors['email']; ?></label>
+                        </div>
+                        <?php } ?>
                 </div>
+                
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <textarea class="form-control" rows="5" id="address" name="address" 
+                        placeholder="Enter address here"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="state">State:</label>
+                    <select class="form-control" id="state" name="state">
+                        <option>Odhisa</option>
+                        <option>Uttar Pradesh</option>
+                        <option>Punjab</option>
+                        <option>Rajasthan</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="zip">Pincode:</label>
+                    <input type="text" class="form-control" id="zip" 
+                    placeholder="Enter Zipcode" name="zip" maxlength="6">
+                </div>
+
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <input type="text" class="form-control" id="city" 
+                    placeholder="Enter City" name="city" maxlength="20">
+                </div>
+                
+                <div class="form-group">
+                    <label for="Country">Country:</label>
+                    <input type="text" class="form-control" id="Country" 
+                    value="India" name="country" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <label class="radio-inline" id="gender">
+                        <input type="radio" name="optradio" value="male" checked>Male</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio" value="female">Female</label>        
+                </div>
+
                 <div class="form-group">
                     <label for="pwd">Password:</label>
-                    <input type="password" class="form-control" id="pwd" 
+                    <input type="password" class="form-control" id="password" 
                     placeholder="Enter password" name="password">
                     <?php 
                     if (isset($errors['password']) && !empty($errors['password'])) { 
@@ -84,9 +130,10 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
                         <?php echo $errors['password']; ?></label></div>
                     <?php } ?>
                 </div>
+
                 <div class="form-group">
                     <label for="pwd">Confirm Password:</label>
-                    <input type="password" class="form-control" id="pwd" 
+                    <input type="password" class="form-control" id="password_check" 
                     placeholder="Enter password again" name="password_check">
                     <?php 
                     if (isset($errors['password_check']) && !empty($errors['password_check'])) { 
@@ -97,7 +144,7 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
                 </div>
                 <!-- link for signin for already registered user -->
                 <div class="form-group form-inline">
-                    <button type="submit" class="btn btn-default" name="signup_button">Submit</button>
+                    <button type="submit" class="btn btn-default" name="signup_button" id="submit">Submit</button>
                     &nbsp; Already have an account<a href = "login.view.php">
                     Sign In</a> Here!
                 </div>

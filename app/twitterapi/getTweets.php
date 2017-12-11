@@ -1,12 +1,16 @@
 <?php
 // starting the session
+
 session_start();
+if(!isset($_SESSION['user_id'])) {
+	header('Location:/../../views/login.view.php');
+}
 // requrie files to style the page and use twitteroauth class
 require __DIR__ . '/../../views/layouts/header.php';
 require __DIR__.'/../../vendor/autoload.php';
-if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
-	header('Location:/../../views/login.view.php');
-}
+
+
+
 use Abraham\TwitterOAuth\TwitterOAuth;
 define('CONSUMER_KEY', 'UJ5j8DHdpy2LiFTAi3efopos0'); // consumer key taken from my twitter app 
 // consumer secret key from my twitter app

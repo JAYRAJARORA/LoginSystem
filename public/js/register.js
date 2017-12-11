@@ -1,28 +1,97 @@
-function formValidation(){
-	var username = document.forms["register"]["username"].value;
-	var firstname = document.forms["register"]["firstname"].value;
-	var lastname = document.forms["register"]["lastname"].value;
-	var email = document.forms["register"]["email"].value;
-	var password = document.forms["register"]["password"].value;
-	var password_check = document.forms["register"]["password_check"].value;
-	if(username=="") {
-		alert("Username cant be empty");
-		return false;
+// form validation using jquery
+$(document).ready(function(){
+$('#submit').click(function(){
+	var username = $('#username').val();
+	var error = 0;
+	var user_regex = /^[0-9a-zA-Z_]{3,}$/;
+	$('.error').hide();
+	if(username===''){
+		// document.write(username);
+		$('#username').after('<span class="error has-error"><label class="control-label">'+
+			'Please enter your username</span>');
+		error = 1;
+	} else if (!user_regex.test(username)){
+		$('#username').after('<span class="error has-error"><label class="control-label">' +
+			'Username must be bigger than 3 chars and contain only digits, letters and underscore</span>');
+		error = 1;
+		}
+	var firstname = $('#firstname').val();
+	var alphabet_regex = /^[A-Za-z]+$/;
+	if(firstname=='') {
+		$('#firstname').after('<span class="error has-error"><label class="control-label">'+
+			'Please enter your firstname</span>');
+			error = 1;
+		}else if(!alphabet_regex.test(firstname)) {
+		$('#firstname').after('<span class="error has-error"><label class="control-label">'+
+			'Firstname can have Letters only</span>');
+			error = 1;
+		}
+	var lastname = $('#lastname').val();
+	if(lastname=='') {
+		$('#lastname').after('<span class="error has-error"><label class="control-label">'+
+			'Please enter your lastname</span>');
+			error = 1;
+		}else if(!alphabet_regex.test(lastname)) {
+		$('#lastname').after('<span class="error has-error"><label class="control-label">'+
+			'Lastname can have Letters only</span>');
+			error = 1;
+		}
+	var email = $('#email').val();
+	if(email==''){
+		$('#email').after('<span class="error has-error"><label class="control-label">'+
+			'Please enter your email</span>');
+			error = 1;
 	}
-	if(firstname=="") {
-		alert("FirstName cant be empty");
-		return false;
+	var pincode = $('#zip').val();
+	var pincode_regex = /^[0-9]+$/;
+	if(pincode=='') {
+		$('#zip').after('<span class="error has-error"><label class="control-label">'+
+			'Please enter the pincode</span>');
+			error = 1;
+		} else if(!pincode_regex.test(pincode)){
+		$('#zip').after('<span class="error has-error"><label class="control-label">'+
+			'Pincode can have numbers only</span>');
+			error = 1;	
 	}
-	if(lastname=="") {
-		alert("Lastname cant be empty");
-		return false;
+	var city = $('#city').val();
+	if(''===city){
+		$('#city').after('<span class="error has-error"><label class="control-label">'+
+			'Please enter the City </span>');
+			error = 1;	
+	} else if(!alphabet_regex.test(city)){
+		$('#city').after('<span class="error has-error"><label class="control-label">'+
+			'City can have letters only</span>');
+			error = 1;	
 	}
-	if(email=="") {
-		alert("Email cant be empty");
-		return false;
+	// validate password
+	var password = $('#password').val();
+	var password_regex = /^.*(?=.{8,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/;
+	if(''===password){
+		$('#password').after('<span class="error has-error"><label class="control-label">'+
+			'Please enter the Password </span>');
+			error = 1;
+	} else if(!password_regex.test(password)){
+		$('#password').after('<span class="error has-error"><label class="control-label">'+
+			'Password must be at least 8 characters and must contain '+
+			'at least one lower case letter, one upper case letter and one digit </span>');
+			error = 1;
 	}
-	if(password=="") {
-		alert("Password cant be empty");
-		return false;
-	}	
-}
+	// validate the again password
+	var password_check = $('#password_check').val();
+	if(''===password_check){
+		$('#password_check').after('<span class="error has-error"><label class="control-label">'+
+			'Please enter the Password Again</span>');
+			error = 1;
+	} else if(!password_regex.test(password_check)){
+		$('#password_check').after('<span class="error has-error"><label class="control-label">'+
+			'Password must be at least 8 characters and must contain '+
+			'at least one lower case letter, one upper case letter and one digit </span>');
+			error = 1;
+	}else if(password!=password_check){
+		$('#password_check').after('<span class="error has-error"><label class="control-label">'+
+		'The two password do not match </span>');
+			error = 1;
+	}
+	if(error==1){return false;}
+});
+});

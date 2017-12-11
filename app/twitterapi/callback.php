@@ -2,7 +2,7 @@
 session_start();
 // load the file to make connections to the twitteroauth library
 require __DIR__.'/../../vendor/autoload.php';
-if(!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+if(!isset($_SESSION['user_id'])) {
 	header('Location:/../../views/login.view.php');
 }
 // library required

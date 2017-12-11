@@ -8,6 +8,12 @@ if (isset($_POST['signup_button'])) {
     $password = htmlentities(mysqli_real_escape_string($db, $_POST['password']));
     $first_name = htmlentities(mysqli_real_escape_string($db, $_POST['firstname']));
     $last_name = htmlentities(mysqli_real_escape_string($db, $_POST['lastname']));
+    
+    $address = htmlentities(mysqli_escape_string($db, $_POST['address']));
+    $zip = htmlentities(mysqli_escape_string($db, $_POST['zip']));
+    $city = htmlentities(mysqli_escape_string($db, $_POST['city']));
+    $state = htmlentities(mysqli_escape_string($db, $_POST['state']));
+    $gender = htmlentities(mysqli_escape_string($db, $_POST['optradio']));
     // to confirm password
     $password_check = htmlentities(mysqli_real_escape_string($db, $_POST['password_check']));
     $errors = array();//errors array to store different errors for different fields
@@ -151,13 +157,16 @@ if (isset($_POST['signup_button'])) {
     else {
         // storing the hash of the password
     	$password = md5($password);
-    	$query = "INSERT INTO users (username, email, password,firstname,lastname) 
-            VALUES('$username', '$email', '$password','$first_name','$last_name')";
+    	$query = "INSERT INTO users (username, email, password,firstname,lastname,address,city,gender,state,zip) 
+            VALUES('$username', '$email', '$password','$first_name','$last_name','$address','$city','gender','$state','$zip')";
+
         // if inserted
     	$query_status= mysqli_query($db, $query);
-    	if($query_status){
+    	if($query_status) {
     		$_SESSION['user_id'] = $db->insert_id;
       		header('Location:/../views/home.view.php');
-    	}
+    	} else {
+            header('Location:/../views/register.view.php');
+        }
 	}
 }
