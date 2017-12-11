@@ -11,6 +11,14 @@ if (isset($_POST['submit'])) {
     $new_password = htmlentities(mysqli_real_escape_string($db, $_POST['new_password']));
     $first_name = htmlentities(mysqli_real_escape_string($db, $_POST['firstname']));
     $last_name = htmlentities(mysqli_real_escape_string($db, $_POST['lastname']));
+    $address = htmlentities(mysqli_real_escape_string($db, $_POST['address']));
+    $city = htmlentities(mysqli_real_escape_string($db, $_POST['city']));
+    $state = htmlentities(mysqli_real_escape_string($db, $_POST['state']));
+    $pincode = htmlentities(mysqli_real_escape_string($db, $_POST['zip']));
+    $gender = htmlentities(mysqli_real_escape_string($db, $_POST['optradio']));
+
+    // echo $username.' '.$first_name.' '.$last_name.' '.$address.' '.$email.' '.$pincode.' '.$city.' '.$state.' '.$gender.' '.$old_password.' '.$new_password;
+    // exit();
     $errors = array();//errors array to store different errors for different fields
     // checking if no data entered so retrun back to the home page without any database hit
     if ($email===$_SESSION['previous_email'] 
@@ -144,11 +152,11 @@ if (isset($_POST['submit'])) {
         // storing the hash of the password
             $password = md5($new_password);
             $query = "UPDATE users SET firstname='$first_name',lastname='$last_name'
-            ,email='$email',password='$password' WHERE id='" . $_SESSION['user_id'] . "' LIMIT 1";
+            ,email='$email',password='$password',address='$address',gender='$gender',city='$city',state='$state', zip='$pincode' WHERE id='" . $_SESSION['user_id'] . "' LIMIT 1";
         } else {
             // if user doesnt want to change password
             $query = "UPDATE users SET firstname='$first_name',lastname='$last_name'
-            ,email='$email' WHERE id='" . $_SESSION['user_id'] . "' LIMIT 1";
+            ,email='$email',address='$address',gender='$gender',city='$city',state='$state', zip='$pincode' WHERE id='" . $_SESSION['user_id'] . "' LIMIT 1";
         }   
         $query_status = mysqli_query($db, $query);
         if($query_status) {

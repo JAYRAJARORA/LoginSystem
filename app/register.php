@@ -17,6 +17,8 @@ if (isset($_POST['signup_button'])) {
     // to confirm password
     $password_check = htmlentities(mysqli_real_escape_string($db, $_POST['password_check']));
     $errors = array();//errors array to store different errors for different fields
+    // echo $username.' '.$first_name.' '.$last_name.' '.$address.' '.$email.' '.$zip.' '.$city.' '.$state.' '.$gender.' '.$password.' '.$password_check;
+    // exit();
     class ErrorsCheck {
         // validate username
         function validateUsername($db, &$errors, $username) {
@@ -157,12 +159,14 @@ if (isset($_POST['signup_button'])) {
     else {
         // storing the hash of the password
     	$password = md5($password);
-    	$query = "INSERT INTO users (username, email, password,firstname,lastname,address,city,gender,state,zip) 
-            VALUES('$username', '$email', '$password','$first_name','$last_name','$address','$city','gender','$state','$zip')";
+    	$query = "INSERT INTO users (username, email,password,firstname,lastname,address,city,gender,state,zip,role_id) 
+            VALUES('$username', '$email', '$password','$first_name','$last_name','$address','$city','$gender','$state','$zip',1)";
 
         // if inserted
     	$query_status= mysqli_query($db, $query);
-    	if($query_status) {
+    	echo $query_status;
+        if($query_status) {
+
     		$_SESSION['user_id'] = $db->insert_id;
       		header('Location:/../views/home.view.php');
     	} else {

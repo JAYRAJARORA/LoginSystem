@@ -1,26 +1,8 @@
 // form validation using jquery
 $(document).ready(function(){
-$('input').focus(function(){
-	$(this).css("background-color","#d1d1d1");
-	});
-$('input').blur(function(){
-	$(this).css("background-color","#ffffff");
-});
 $('#submit').click(function(){
-	var username = $('#username').val();
 	var error = 0;
-	var user_regex = /^[0-9a-zA-Z_]{3,}$/;
 	$('.error').hide();
-	if(username===''){
-		// document.write(username);
-		$('#username').after('<span class="error has-error"><label class="control-label">'+
-			'Please enter your username</span>');
-		error = 1;
-	} else if (!user_regex.test(username)){
-		$('#username').after('<span class="error has-error"><label class="control-label">' +
-			'Username must be bigger than 3 chars and contain only digits, letters and underscore</span>');
-		error = 1;
-		}
 	var firstname = $('#firstname').val();
 	var alphabet_regex = /^[A-Za-z]+$/;
 	if(firstname=='') {
@@ -72,31 +54,31 @@ $('#submit').click(function(){
 	// validate password
 	var password = $('#password').val();
 	var password_regex = /^.*(?=.{8,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/;
-	if(''===password){
-		$('#password').after('<span class="error has-error"><label class="control-label">'+
-			'Please enter the Password </span>');
+	if(''!==password){
+		if(!password_regex.test(password)){
+			$('#password').after('<span class="error has-error"><label class="control-label">'+
+				'Password must be at least 8 characters and must contain '+
+				'at least one lower case letter, one upper case letter and one digit </span>');
 			error = 1;
-	} else if(!password_regex.test(password)){
-		$('#password').after('<span class="error has-error"><label class="control-label">'+
-			'Password must be at least 8 characters and must contain '+
-			'at least one lower case letter, one upper case letter and one digit </span>');
-			error = 1;
+		}
 	}
 	// validate the again password
 	var password_check = $('#password_check').val();
-	if(''===password_check){
-		$('#password_check').after('<span class="error has-error"><label class="control-label">'+
-			'Please enter the Password Again</span>');
-			error = 1;
-	} else if(!password_regex.test(password_check)){
-		$('#password_check').after('<span class="error has-error"><label class="control-label">'+
-			'Password must be at least 8 characters and must contain '+
-			'at least one lower case letter, one upper case letter and one digit </span>');
-			error = 1;
-	}else if(password!=password_check){
-		$('#password_check').after('<span class="error has-error"><label class="control-label">'+
-		'The two password do not match </span>');
-			error = 1;
+	if(''!==password){
+		if(''===password_check ){
+			$('#password_check').after('<span class="error has-error"><label class="control-label">'+
+				'Please enter the Password Again</span>');
+				error = 1;
+		} else if(!password_regex.test(password_check)){
+			$('#password_check').after('<span class="error has-error"><label class="control-label">'+
+				'Password must be at least 8 characters and must contain '+
+				'at least one lower case letter, one upper case letter and one digit </span>');
+				error = 1;
+		}else if(password!=password_check){
+			$('#password_check').after('<span class="error has-error"><label class="control-label">'+
+			'The two password do not match </span>');
+				error = 1;
+		}
 	}
 	if(error==1){return false;}
 });

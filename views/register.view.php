@@ -23,8 +23,7 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
     <div class="row">
         <div class=" col-md-offset-4 col-md-4">
             <h2>Sign Up</h2>
-            <form name="register" method="post" action="/../app/register.php" 
-            onsubmit="return formValidation();">
+            <form name="register" method="post" action="/../app/register.php">
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" class="form-control" id="username" 
@@ -115,7 +114,7 @@ if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
                     <label for="gender">Gender:</label>
                     <label class="radio-inline" id="gender">
                         <input type="radio" name="optradio" value="male" checked>Male</label>
-                    <label class="radio-inline">
+                    <label class="radio-inline" id="gender">
                         <input type="radio" name="optradio" value="female">Female</label>        
                 </div>
 

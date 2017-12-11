@@ -19,6 +19,7 @@ if (isset($_SESSION['user_id'])) {
 <html>
 <head>
     <title>Login Page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="/../public/js/login.js"></script>
 </head>
 <body>
@@ -26,7 +27,7 @@ if (isset($_SESSION['user_id'])) {
     <div class="row">
         <div class=" col-md-offset-4 col-md-4">
             <h2>Sign In</h2>
-            <form name="login" onsubmit="return formValidation()" method="post" action="/../app/login.php">
+            <form name="login" method="post" action="/../app/login.php" onsubmit="return formValidation();">
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" class="form-control" id="username" 
@@ -40,7 +41,7 @@ if (isset($_SESSION['user_id'])) {
                 
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="password" class="form-control" id="pwd" 
+                    <input type="password" class="form-control" id="password" 
                     placeholder="Enter password" name="password">
                      <?php 
                     if (isset($errors['password']) && !empty($errors['password'])) { 
@@ -59,7 +60,7 @@ if (isset($_SESSION['user_id'])) {
                 <!-- link for signup page for new user-->
                 <div class="form-group form-inline">
                     <button type="submit" class="btn btn-default" 
-                        name="login_button">Submit</button>
+                        name="login_button" id="submit">Submit</button>
                     &nbsp; New User <a href = "register.view.php">Sign Up</a> Here!
                 </div>
             </form>
