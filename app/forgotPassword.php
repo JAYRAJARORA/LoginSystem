@@ -43,7 +43,7 @@ if ($_POST['email']) {
 
                 //Recipients
                 $mail->setFrom('jayraj.arora@gmail.com', 'Mailer');
-                $mail->addAddress('jayraja@mindfiresolutions.com', 'Jayraj');     // Add a recipient
+                $mail->addAddress($email, 'Jayraj');     // Add a recipient
 
                 //Content
                 $mail->isHTML(true);                                  // Set email format to HTML
