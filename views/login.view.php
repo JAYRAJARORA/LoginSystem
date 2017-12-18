@@ -3,6 +3,9 @@
 if (!isset($_SESSION)) {
     session_start();
 }
+if (isset($_SESSION['user_id'])) {
+    header('Location: home.view.php');
+}
 // styling the page with a navigation bar at the header
 require 'layouts/header.php';
 // checking for errors if present destroy the session after saving it.
@@ -11,9 +14,7 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
     session_destroy();
 }
 // redirect to the home page
-if (isset($_SESSION['user_id'])) {
-    header('Location: home.view.php');
-}
+
 ?>
 <!DOCTYPE html>
 <html>

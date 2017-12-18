@@ -1,9 +1,14 @@
 <?php
 // starting session 
-if (isset($_SESSION))
+if (!isset($_SESSION))
     session_start();
+
 // rendering style in the page
+if (isset($_SESSION['user_id'])) {
+    header('Location: home.view.php');
+}
 require 'layouts/header.php';
+
 // checking for errors if present destroy all the session variables after saving errors.
 if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])) {
     $errors = $_SESSION['errors'];

@@ -49,18 +49,19 @@ $(document).ready(function () {
     $('.hide_username_details').hide();
     var user_regex = /^[0-9a-zA-Z_]{3,}$/;
 
-    function usernameValidate(username, user_regex, error) {
+    function usernameValidate(username, user_regex) {
         if ('' === username) {
             $("#username").parent().addClass('has-error');
             $('#username_check').html("Please enter your username");
             $('#username_check').show();
-            error.foo = 1;
+            return false;
         } else if (!user_regex.test(username)) {
             $("#username").parent().addClass('has-error');
             $('#username_check').html("Username has to be bigger than 3 chars and contain only " +
                 "digits, letters and underscore");
             $('#username_check').show();
-            error.foo = 1;
+            return false;
+
         }
     }
 
@@ -79,22 +80,12 @@ $(document).ready(function () {
     var password_regex = /^.*(?=.{8,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/;
     $('.hide_password_details').hide();
 
-    function passwordValidate(password, password_regex, error) {
+    function passwordValidate(password, password_regex) {
         if ('' === password) {
             $("#password").parent().addClass('has-error');
             $('#password_error').html("Please enter your password");
             $('#password_error').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
-        } else if (!password_regex.test(password)) {
-            $("#password").parent().addClass('has-error');
-            $('#password_error').html("Password has to be at least 8 characters and must contain " +
-                "at least one lower case letter, one upper case letter and one digit");
-            $('#password_error').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         }
     }
 
@@ -112,11 +103,9 @@ $(document).ready(function () {
     $('#submit').click(function () {
         var username = $('#username').val();
         var password = $('#password').val();
-        var error = {"foo": 0};
-        usernameValidate(username, user_regex, error);
-        passwordValidate(password, password_regex, error);
-        if (error.foo == 1) {
-            return false;
+        if(false == usernameValidate(username, user_regex) ||
+            false == passwordValidate(password, password_regex )){
+         return false;
         }
     });
 });
