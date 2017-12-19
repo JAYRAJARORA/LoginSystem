@@ -7,16 +7,17 @@ $(document).ready(function () {
     function usernameValidate(username, user_regex) {
         if ('' === username) {
             $('#username').parent().addClass('has-error');
-            $('#username_check').html("Please enter your username");
+            $('#username_check').html('Please enter your username');
             $('#username_check').show();
             return false;
         } else if (!user_regex.test(username)) {
-            $("#username").parent().addClass('has-error');
-            $('#username_check').html("Username must be bigger than 3 chars and contain only " +
-                "digits, letters and underscore");
+            $('#username').parent().addClass('has-error');
+            $('#username_check').html('Username must be bigger than 3 chars and contain only ' +
+                'digits, letters and underscore');
             $('#username_check').show();
             return false;
         }
+        return true;
     }
     // validation upon blur and focus
     $('#username').focus(function () {
@@ -25,7 +26,28 @@ $(document).ready(function () {
     });
     $('#username').blur(function () {
         var username = $('#username').val();
-        usernameValidate(username, user_regex);
+        if (true === usernameValidate(username, user_regex)) {
+            $.ajax({
+               type : 'POST',
+               url : '/../../app/checkUsername.php',
+               data : {
+                 username : username
+               },
+               success : function (response) {
+                   var jsonresponse = $.parseJSON(response);
+                   if (jsonresponse !== null) {
+                       if (jsonresponse.hasOwnProperty('error')) {
+                           console.log(jsonresponse.error.username);
+                           $('#username').parent().addClass('has-error');
+                           $('#username_check').html(jsonresponse.error.username);
+                           $('#username_check').show();
+                       } else if(jsonresponse.hasOwnProperty('success')) {
+                           console.log(jsonresponse.success);
+                       }
+                   }
+               }
+            });
+        }
     });
 
 
@@ -36,12 +58,12 @@ $(document).ready(function () {
     function firstnameValidate(firstname, alphabet_regex) {
         if ('' === firstname) {
             $('#firstname').parent().addClass('has-error');
-            $('#firstname_check').html("Please enter your firstname");
+            $('#firstname_check').html('Please enter your firstname');
             $('#firstname_check').show();
             return false;
         } else if (!alphabet_regex.test(firstname)) {
             $('#firstname').parent().addClass('has-error');
-            $('#firstname_check').html("Firstname can contain letters only");
+            $('#firstname_check').html('Firstname can contain letters only');
             $('#firstname_check').show();
             return false;
         }
@@ -63,12 +85,12 @@ $(document).ready(function () {
     function lastnameValidate(lastname, alphabet_regex) {
         if ('' === lastname) {
             $('#lastname').parent().addClass('has-error');
-            $('#lastname_check').html("Please enter your lastname");
+            $('#lastname_check').html('Please enter your lastname');
             $('#lastname_check').show();
             return false;
         } else if (!alphabet_regex.test(lastname)) {
             $('#lastname').parent().addClass('has-error');
-            $('#lastname_check').html("Lastname can contain letters only");
+            $('#lastname_check').html('Lastname can contain letters only');
             $('#lastname_check').show();
             return false;
         }
@@ -91,15 +113,17 @@ $(document).ready(function () {
     function emailValidate(email, email_regex) {
         if ('' === email) {
             $('#email').parent().addClass('has-error');
-            $('#email_check').html("Please enter your email");
+            $('#email_check').html('Please enter your email');
             $('#email_check').show();
             return false;
         } else if (!email_regex.test(email)) {
             $('#email').parent().addClass('has-error');
-            $('#email_check').html("Invalid email format");
+            $('#email_check').html('Invalid email format');
             $('#email_check').show();
             return false;
         }
+        return true;
+
     }
     // validation upon blur and focus
     $('#email').focus(function () {
@@ -108,7 +132,33 @@ $(document).ready(function () {
     });
     $('#email').blur(function () {
         var email = $('#email').val();
-        emailValidate(email, email_regex)
+        if (true ===emailValidate(email, email_regex)) {
+            $.ajax({
+               type : 'POST',
+               url :  '/../../app/checkEmail.php',
+               data : {
+                 email : email
+               },
+               success : function (response) {
+                   console.log(response);
+                   var jsonresponse = $.parseJSON(response);
+                   if (jsonresponse !==null) {
+                       if (jsonresponse.hasOwnProperty('error')) {
+                           console.log(jsonresponse.error.email);
+                           $('#email').parent().addClass('has-error');
+                           $('#email_check').html(jsonresponse.error.email);
+                           $('#email_check').show();
+                       } else if (jsonresponse.hasOwnProperty('success')) {
+                           console.log(jsonresponse.success);
+                       }
+                   }
+               },
+               error : function (response) {
+                   console.log(response);
+               }
+            });
+        }
+
     });
 
 
@@ -120,12 +170,12 @@ $(document).ready(function () {
     function pincodeValidate(pincode, pincode_regex) {
         if ('' === pincode) {
             $('#zip').parent().addClass('has-error');
-            $('#pincode_check').html("Please enter the pincode");
+            $('#pincode_check').html('Please enter the pincode');
             $('#pincode_check').show();
             return false;
         } else if (!pincode_regex.test(pincode)) {
-            $("#zip").parent().addClass('has-error');
-            $('#pincode_check').html("Pincode can have digits only");
+            $('#zip').parent().addClass('has-error');
+            $('#pincode_check').html('Pincode can have digits only');
             $('#pincode_check').show();
             return false;
         }
@@ -145,13 +195,13 @@ $(document).ready(function () {
 
     function cityValidate(city, alphabet_regex) {
         if ('' === city) {
-            $("#city").parent().addClass('has-error');
-            $('#city_check').html("Please enter the city");
+            $('#city').parent().addClass('has-error');
+            $('#city_check').html('Please enter the city');
             $('#city_check').show();
             return false;
         } else if (!alphabet_regex.test(city)) {
             $('#city').parent().addClass('has-error');
-            $('#city_check').html("City can have letters only");
+            $('#city_check').html('City can have letters only');
             $('#city_check').show();
             return false;
         }
@@ -175,13 +225,13 @@ $(document).ready(function () {
     function passwordValidate(password, password_regex) {
         if ('' === password) {
             $('#password').parent().addClass('has-error');
-            $('#password_error').html("Please enter your password");
+            $('#password_error').html('Please enter your password');
             $('#password_error').show();
             return false;
         } else if (!password_regex.test(password)) {
             $('#password').parent().addClass('has-error');
-            $('#password_error').html("Password must be at least 8 characters and must contain " +
-                "at least one lower case letter, one upper case letter and one digit");
+            $('#password_error').html('Password must be at least 8 characters and must contain ' +
+                'at least one lower case letter, one upper case letter and one digit');
             $('#password_error').show();
             return false;
         }
@@ -203,21 +253,14 @@ $(document).ready(function () {
 
     function passwordCheckValidate(password, password_check, password_regex) {
         if ('' === password_check) {
-
             $('#password_check').parent().addClass('has-error');
-            $('#password_check_error').html("Please enter your password again");
+            $('#password_check_error').html('Please enter your password again');
             $('#password_check_error').show();
             return false;
 
-        } else if (!password_regex.test(password_check)) {
-            $("#password_check").parent().addClass('has-error');
-            $('#password_check_error').html("Password must be at least 8 characters and must contain " +
-                "at least one lower case letter, one upper case letter and one digit");
-            $('#password_check_error').show();
-            return false;
         } else if (password != password_check) {
             $('#password_check').parent().addClass('has-error');
-            $('#password_check_error').html("The two passwords do not match");
+            $('#password_check_error').html('The two passwords do not match');
             $('#password_check_error').show();
             return false;
         }
@@ -226,7 +269,7 @@ $(document).ready(function () {
     // validation upon blur and focus
     $('#password_check').focus(function () {
         $('#password_check_error').hide();
-        $('#password').parent().removeClass('has-error');
+        $('#password_check').parent().removeClass('has-error');
     });
     $('#password_check').blur(function () {
         var password = $('#password').val();
@@ -244,17 +287,26 @@ $(document).ready(function () {
         var email = $('#email').val();
         var pincode = $('#zip').val();
         var city = $('#city').val();
+        var is_error = true;
 
-        if(false === usernameValidate(username, user_regex) ||
-            false === firstnameValidate(firstname, alphabet_regex) ||
-            false === lastnameValidate(lastname, alphabet_regex) ||
-            false === emailValidate(email, email_regex) ||
-            false ===  pincodeValidate(pincode, pincode_regex) ||
-            false ===  cityValidate(city, alphabet_regex) ||
-            false === passwordValidate(password, password_regex )||
-            false ===  passwordCheckValidate(password, password_check, password_regex)
-        ){
+        is_error = usernameValidate(username, user_regex) ;
+        is_error = firstnameValidate(firstname, alphabet_regex);
+        is_error = lastnameValidate(lastname, alphabet_regex);
+        is_error = emailValidate(email, email_regex);
+        is_error = pincodeValidate(pincode, pincode_regex);
+        is_error = cityValidate(city, alphabet_regex);
+        is_error = passwordValidate(password, password_regex);
+        is_error = passwordCheckValidate(password, password_check, password_regex);
+
+        if (true === $('#username_check').is(':visible')) {
+            is_error = false;
+        }
+        if (true === $('#email_check').is(':visible')) {
+            is_error = false;
+        }
+        if (false === is_error) {
             return false;
         }
+
     });
 });

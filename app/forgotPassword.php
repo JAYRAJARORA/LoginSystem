@@ -17,14 +17,14 @@ if ($_POST['email']) {
     if ($query->num_rows > 0) {
         $rand_num = mt_rand();
         $epoch = time();
-        $date = date("Y-m-d h:i:s", $epoch);
+        $date = date('Y-m-d h:i:s', $epoch);
         $sql = "Update users set forgot_pass_id='$rand_num',".
             "token_time='$date' where email='$email'";
 
         $query = mysqli_query($db, $sql);
 
         if ($query) {
-            $response['success'] = "Reset link sent successfully";
+            $response['success'] = 'Reset link sent successfully';
             $reset_link = 'http://dashboard.dev/views/resetPassword.view.php?token=' . $rand_num;
             $mail = new PHPMailer(true);
             /**Server settings:
@@ -71,10 +71,10 @@ if ($_POST['email']) {
                 echo 'Mailer Error: ' . $mail->ErrorInfo;
             }
         } else {
-            $response['error'] = "Unable to process your request";
+            $response['error'] = 'Unable to process your request';
         }
     } else {
-        $response['error'] = "Sorry,email doesn't exists";
+        $response['error'] = 'Sorry,email doesn\'t exists';
     }
 }
 

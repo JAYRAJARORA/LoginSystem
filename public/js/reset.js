@@ -8,13 +8,13 @@ $(document).ready(function () {
 
     function passwordValidate(password, password_regex) {
         if ('' === password) {
-            $("#password").parent().addClass('has-error');
-            $('#password_error').html("Password is required");
+            $('#password').parent().addClass('has-error');
+            $('#password_error').html('Password is required');
             $('#password_error').show();
             return false;
         } else if (!password_regex.test(password)) {
-            $("#password").parent().addClass('has-error');
-            $('#password_error').html("Password invalid");
+            $('#password').parent().addClass('has-error');
+            $('#password_error').html('Password invalid');
             $('#password_error').show();
             return false;
         }
@@ -35,18 +35,18 @@ $(document).ready(function () {
 
     function passwordCheckValidate(password, password_check, password_regex) {
         if ('' === password_check) {
-            $("#password_check").parent().addClass('has-error');
-            $('#password_check_error').html("Password is required");
+            $('#password_check').parent().addClass('has-error');
+            $('#password_check_error').html('Password is required');
             $('#password_check_error').show();
             return false;
         } else if (!password_regex.test(password_check)) {
-            $("#password_check").parent().addClass('has-error');
-            $('#password_check_error').html("Password is invalid");
+            $('#password_check').parent().addClass('has-error');
+            $('#password_check_error').html('Password is invalid');
             $('#password_check_error').show();
             return false;
         } else if (password != password_check) {
-            $("#password_check").parent().addClass('has-error');
-            $('#password_check_error').html("The two passwords do not match");
+            $('#password_check').parent().addClass('has-error');
+            $('#password_check_error').html('The two passwords do not match');
             $('#password_check_error').show();
             return false;
         }
@@ -66,7 +66,7 @@ $(document).ready(function () {
     $('#submit').click(function () {
         var password = $('#password').val();
         var password_check = $('#password_check').val();
-        if(false === passwordValidate(password, password_regex)
+        if(false === passwordValidate(password, password_regex) ||
             passwordCheckValidate(password, password_check, password_regex)
         ){
          return false;

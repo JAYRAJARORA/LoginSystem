@@ -50,8 +50,8 @@ if (!isset($_SESSION['access_token'])) {
             $access_token['oauth_token_secret']
     );
     $statuses = $connection->get(
-            "statuses/user_timeline",
-            ["count" => 25, "exclude_replies" => true]
+            'statuses/user_timeline',
+            ['count' => 25, 'exclude_replies' => true]
     );
     $_SESSION['user_tweets'] = $statuses;
 }
@@ -77,6 +77,7 @@ if (!isset($_SESSION['access_token'])) {
         </div>
     </div>
 </div>
+<script>$('#getTweets').addClass('active');</script>
 <?php
 require __DIR__ . '/../../views/layouts/footer.php';;
 ?>

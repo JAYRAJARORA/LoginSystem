@@ -26,7 +26,7 @@ if (isset($_SESSION['errors'])
     && !empty($_SESSION['errors'])
 ) {
     $errors = $_SESSION['errors'];
-    unset($_SESSION["errors"]);
+    unset($_SESSION['errors']);
 }
 ?>
 
@@ -187,7 +187,7 @@ if (isset($_SESSION['errors'])
                                echo $_SESSION['previous_zip'];
                            }
                            ?>">
-                    <span class=" hide_pincode_details help-block"
+                    <span class="hide_pincode_details help-block"
                           id="pincode_check">
                         <label class="control-label">
                         </label>
@@ -209,7 +209,7 @@ if (isset($_SESSION['errors'])
                                echo $_SESSION['previous_city'];
                            }
                            ?>">
-                    <span class=" hide_city_details help-block"
+                    <span class="hide_city_details help-block"
                           id="city_check">
                         <label class="control-label">
                         </label>
@@ -319,6 +319,7 @@ if (isset($_SESSION['errors'])
     </div>
 </div>
 <hr>
+<script>$('#update').addClass('active');</script>
 </body>
 </html>
 

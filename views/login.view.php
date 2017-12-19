@@ -19,8 +19,7 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
 <html>
 <head>
     <title>Login Page</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/../public/js/login.js"></script>
+
 </head>
 <body>
 <div class="container">
@@ -29,8 +28,7 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
             <h2>Sign In</h2>
             <form name="login"
                   method="post"
-                  action="/../app/login.php"
-                  onsubmit="return formValidation();">
+                  action="/../app/login.php">
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text"
@@ -42,16 +40,7 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
                           id="username_check">
                         <label class="control-label"></label>
                     </span>
-                    <?php
-                    if (isset($errors['username'])
-                        && !empty($errors['username'])) {
-                    ?>
-                    <div class="has-error">
-                        <label class="control-label">
-                        <?php echo $errors['username']; ?>
-                        </label>
-                    </div>
-                    <?php } ?>
+
                 </div>
 
                 <div class="form-group">
@@ -61,35 +50,15 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
                            id="password"
                            placeholder="Enter password"
                            name="password">
-                    <span class=" hide_password_details help-block"
-                          id="password_error">
-                        <label class="control-label">
-                        </label>
+                    <span class="hide_password_details help-block" id="password_error">
+                        <?php
+                        if (isset($errors['invalid'])
+                            && !empty($errors['invalid'])
+                        ) {
+                            echo $errors['invalid'];
+                        } ?>
                     </span>
-                    <?php
-                    if (isset($errors['password'])
-                        && !empty($errors['password'])
-                    ) {
-                        ?>
-                        <div class="has-error">
-                            <label class="control-label">
-                                <?php
-                                echo $errors['password'];
-                                ?>
-                            </label>
-                        </div>
-                    <?php
-                    }
-                    if (isset($errors['invalid'])
-                        && !empty($errors['invalid'])
-                    ) {
-                        ?>
-                        <div class="has-error">
-                            <label class="control-label">
-                                <?php echo $errors['invalid']; ?>
-                            </label>
-                        </div>
-                    <?php } ?>
+
                 </div>
 
                 <div class="form-group form-inline">
@@ -99,78 +68,62 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
                             id="submit">Submit
                     </button>
                     &nbsp; <a href="register.view.php">Create Account</a>
-                    &nbsp; <a href="#"
-                              data-target="#pwdModal"
-                              data-toggle="modal">
-                            Forgot my password</a>
+                    &nbsp; <button type="button"
+                              class="btn btn-primary"
+                              data-toggle="modal"
+                              data-target="#pwdModal">Forgot Password
+                      </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 <!--modalform-->
-<div id="pwdModal"
-     class="modal fade"
-     tabindex="-1"
-     role="dialog"
-     aria-hidden="true">
+<div class="modal fade" id="pwdModal">
     <div class="modal-dialog">
         <div class="modal-content">
+            <!-- header -->
             <div class="modal-header">
-                <button type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-hidden="true">×
-                </button>
-                <h1 class="text-center">What's My Password?</h1>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Reset Password</h3>
             </div>
-            <div class="modal-body">
-                <div class="col-md-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="text-center">
-                                <p>If you have forgotten your password
-                                    you can reset it here.</p>
-                                <div class="panel-body">
-                                    <fieldset>
-                                        <div class="form-group">
-                                            <input class="form-control input-lg"
-                                                   placeholder="E-mail Address"
-                                                   name="email"
-                                                   id="modal_email"
-                                                   type="email">
-                                            <span class=" hide_error help-block"
-                                                  id="display_errors">
-                                                <label class="control-label"></label>
-                                            </span>
 
-                                        </div>
-                                        <div class="form-group">
-                                            <input class="btn btn-lg btn-primary btn-block"
-                                                   value="Send Email"
-                                                   id="forgot_pass_submit"
-                                                   type="submit">
-                                        </div>
-                                        <div class="alert alert-success success_box">
-                                            <span id="successMessage">
-                                                <label class="control-label"></label>
-                                            </span>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                            </div>
-                        </div>
+            <!-- body(form) -->
+            <div class="modal-body">
+                <fieldset>
+                    <div class="form-group">
+                        <input class="form-control input-lg"
+                               placeholder="E-mail Address"
+                               name="email"
+                               id="modal_email"
+                               type="email">
+                        <span class=" hide_error help-block"
+                              id="display_errors">
+                            <label class="control-label"></label>
+                        </span>
+
                     </div>
-                </div>
+                    <div class="form-group">
+                        <input class="btn btn-lg btn-primary btn-block"
+                               value="Send Email"
+                               id="forgot_pass_submit"
+                               type="submit">
+                    </div>
+                    <div class="alert alert-success success_box">
+                        <span id="successMessage">
+                            <label class="control-label"></label>
+                        </span>
+                    </div>
+                </fieldset>
+
             </div>
+            <!-- footer -->
             <div class="modal-footer">
-                <div class="col-md-12">
-                    <button class="btn"
-                            data-dismiss="modal"
-                            aria-hidden="true">
-                        Cancel
-                    </button>
-                </div>
+                <button class="btn"
+                        data-dismiss="modal"
+                        aria-hidden="true">
+                    Cancel
+                </button>
             </div>
         </div>
     </div>
@@ -178,6 +131,22 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
 <?php
 require 'layouts/footer.php';
 ?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="/../public/js/login.js">
+</script>
+<?php
+if (empty($errors['invalid'])
+) {?>
+    <script>
+        $('#password_error').hide();
+    </script>
+<?php
+} else { ?>
+    <script>
+        $('#password').parent().addClass('has-error');
+    </script>
+    <?php
+    }?>
 </body>
 </html>
 

@@ -44,9 +44,9 @@ if ($user->num_rows > 0) {
     $difference_in_seconds = strtotime($current_time) - strtotime($submit_link_time);
 
     if (($difference_in_seconds / 3600) > 1) {
-        echo "<div>Link expired.Click on forgot password to reset it again 
-                <a href = 'login.view.php'>Login Page</a>
-                </div>";
+        echo '<div>Link expired.Click on forgot password to reset it again 
+                <a href = \'login.view.php\'>Login Page</a>
+                </div>';
     } else {
         require 'layouts/header.php';
         ?>
@@ -124,9 +124,9 @@ if ($user->num_rows > 0) {
         <?php require 'layouts/footer.php';
     }
 } else {
-    echo "<div>Token mismatch.Click on forgot password to reset it again 
-          <a href = 'login.view.php'>Login Page</a>
-          </div>";
+    echo '<div>Token mismatch.Click on forgot password to reset it again 
+          <a href = \'login.view.php\'>Login Page</a>
+          </div>';
 }
 ?>
 

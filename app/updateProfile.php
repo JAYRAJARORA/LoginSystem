@@ -49,11 +49,12 @@ if (isset($_POST['submit'])) {
 
     validateFirstname($errors,$first_name);
     validateLastname($errors,$last_name);
-    validateEmail($errors,$previous_email);
-
+    if($email!=$previous_email) {
+        validateEmail($db, $errors, $email);
+    }
     /* if field empty then do not update passwords */
     if (!empty($old_password)) {
-        validateOldPassword($errors, $username, $old_password);
+        validateOldPassword($db, $errors, $username, $old_password);
         validateNewPassword($errors, $new_password);
     }
 
@@ -84,7 +85,7 @@ if (isset($_POST['submit'])) {
     }
 } elseif (isset($_POST['cancel'])) {
     /* hitting cancels reloads the current page so that all fields are reset. */
-    header("Refresh:0");
+    header('Refresh:0');
 }
 
 

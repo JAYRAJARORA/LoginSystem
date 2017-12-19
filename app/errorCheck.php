@@ -34,17 +34,15 @@ function validateUsername($db, &$errors, $username)
     ) {
         $err .= 'Username must be bigger than 3 chars and contain only 
         digits, letters and underscore';
-    }
+    } else {
 
-    // checking if user already exists
-    $check_query_name = "SELECT Username FROM users WHERE username = '$username'";
-    $check = mysqli_query(
-        $db,
-        $check_query_name
-    );
+        // checking if user already exists
+        $check_query_name = "SELECT Username FROM users WHERE username = '$username'";
+        $check = mysqli_query($db, $check_query_name);
 
-    if ($check && $check->num_rows) {
-        $err .= 'Username already exists';
+        if ($check && $check->num_rows) {
+            $err .= 'Username already exists';
+        }
     }
 
     if ('' !== $err) {
@@ -55,7 +53,6 @@ function validateUsername($db, &$errors, $username)
 /**
  * This method checks the firstname.
  *
- * @param object $db database to hold connections,
  * @param string $first_name for checking firstname
  * @param array $errors reference of errors in firstname
  *
@@ -110,7 +107,7 @@ function validateLastname(&$errors, $last_name)
  *
  * @return void
  */
-function validateEmail(&$errors, $email)
+function validateEmail($db,&$errors, $email)
 {
     $err = '';
 
@@ -128,16 +125,14 @@ function validateEmail(&$errors, $email)
     ) {
         $email_err = 'Invalid email format';
         $err .= 'Invalid email';
-    }
-    /* checking for the duplicated email */
-    $check_query_email = "SELECT email FROM users WHERE email = '$email'";
-    $check = mysqli_query(
-        $db,
-        $check_query_email
-    );
+    } else {
+        /* checking for the duplicated email */
+        $check_query_email = "SELECT email FROM users WHERE email = '$email'";
+        $check = mysqli_query($db, $check_query_email);
 
-    if ($check && $check->num_rows) {
-        $err .= 'Email already exists';
+        if ($check && $check->num_rows) {
+            $err .= 'Email already exists';
+        }
     }
 
     if ('' !== $err) {
@@ -148,7 +143,6 @@ function validateEmail(&$errors, $email)
 /**
  * This method checks the password.
  *
- * @param object $db database to hold connections,
  * @param string $password for checking password
  * @param array $errors reference of errors in password
  *
@@ -160,7 +154,7 @@ function validatePassword(&$errors, $password)
 
     if (empty($password)) {
         $err .= 'Password is required';
-    } elseif (strlen($password) > 32) {
+    } elseif (strlen($password) > 30) {
         $err .= 'Maximum length exceeded';
     } elseif (
         !preg_match(
@@ -181,7 +175,6 @@ function validatePassword(&$errors, $password)
  * This method checks the first password is valid and matches
  * with the password_check.
  *
- * @param object $db database to hold connections,
  * @param string $password for checking  if password exists
  * @param string $password_check for checking the password again
  * @param array $errors reference of errors in password_check
@@ -191,8 +184,7 @@ function validatePassword(&$errors, $password)
 function validatePasswordCheck(&$errors, $password, $password_check)
 {
     $err = '';
-
-    // if old password is incorrect then first correct it
+    /* if old password is incorrect then first correct it */
     if (!array_key_exists('password', $errors)) {
         if ($password !== $password_check) {
             $err .= 'The two passwords do not match';
@@ -219,11 +211,9 @@ function validateCombination($db, &$errors, $username, $password)
 {
     $err = '';
     $password = md5($password);
-    $query = "SELECT id FROM users WHERE username='$username' AND password='$password' LIMIT 1";
-    $query_status = mysqli_query(
-        $db,
-        $query
-    );
+    $query = "SELECT id FROM users WHERE username='$username' 
+              AND password='$password' LIMIT 1";
+    $query_status = mysqli_query($db, $query);
 
     if (!$query_status || !$query_status->num_rows) {
         $err .= 'Wrong Username or Password';
@@ -251,10 +241,7 @@ function validateOldPassword($db, &$errors, $username, $old_password)
     $password = $old_password;
     $password = md5($password);
     $query = "SELECT id FROM users WHERE username='$username' AND password='$password' LIMIT 1";
-    $query_status = mysqli_query(
-        $db,
-        $query
-    );
+    $query_status = mysqli_query($db, $query);
 
     if (!$query_status || !$query_status->num_rows) {
         $err .= 'Wrong Password Entered';

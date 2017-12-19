@@ -14,5 +14,5 @@ $db = mysqli_connect(
 
 //checking connection else showing error message.
 if (!$db) {
-    echo "Could'nt connect to the db";
+    echo 'Could\'nt connect to the db';
 }

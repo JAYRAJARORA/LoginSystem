@@ -41,14 +41,9 @@ if (isset($_SESSION['errors'])
                            id="username"
                            placeholder="Enter Username"
                            name="username"
-                           maxlength="40"
-                           value="<?php if (isset($_SESSION['username'])) {
-                           echo $_SESSION['username'];
-                           } ?>">
+                           maxlength="40">
                     <span class="hide_username_details help-block"
                           id="username_check">
-                        <label class="control-label">
-                        </label>
                     </span>
                     <?php
                     if (isset($errors['username'])
@@ -71,11 +66,7 @@ if (isset($_SESSION['errors'])
                            id="firstname"
                            placeholder="Enter FirstName"
                            name="firstname"
-                           maxlength="40"
-                           value="<?php
-                           if (isset($_SESSION['firstname'])) {
-                           echo $_SESSION['firstname'];
-                           } ?>">
+                           maxlength="40">
                     <span class="hide_firstname_details help-block"
                           id="firstname_check">
                         <label class="control-label">
@@ -97,10 +88,7 @@ if (isset($_SESSION['errors'])
                            id="lastname"
                            placeholder="Enter LastName"
                            maxlength="40"
-                           name="lastname"
-                           value="<?php if (isset($_SESSION['lastname'])) {
-                           echo $_SESSION['lastname'];
-                           } ?>">
+                           name="lastname">
                     <span class="hide_lastname_details help-block"
                           id="lastname_check">
                         <label class="control-label">
@@ -123,14 +111,9 @@ if (isset($_SESSION['errors'])
                            id="email"
                            placeholder="Enter email"
                            maxlength="40"
-                           name="email"
-                           value="<?php if (isset($_SESSION['email'])) {
-                           echo $_SESSION['email'];
-                           } ?>">
+                           name="email">
                     <span class="hide_email_details help-block"
                           id="email_check">
-                        <label class="control-label">
-                        </label>
                     </span>
                     <?php
                     if (isset($errors['email'])
@@ -233,8 +216,6 @@ if (isset($_SESSION['errors'])
                            name="password">
                     <span class=" hide_password_details help-block"
                           id="password_error">
-                        <label class="control-label">
-                        </label>
                     </span>
                     <?php
                     if (isset($errors['password'])
@@ -258,8 +239,6 @@ if (isset($_SESSION['errors'])
                            name="password_check">
                     <span class=" hide_password_check_details help-block"
                           id="password_check_error">
-                        <label class="control-label">
-                        </label>
                     </span>
                     <?php
                     if (isset($errors['password_check'])
@@ -280,8 +259,7 @@ if (isset($_SESSION['errors'])
                             id="submit">Submit
                     </button>Already have an account
                     <a href="login.view.php">
-                    Sign In
-                    </a> Here!
+                    Sign In</a> Here!
                 </div>
             </form>
         </div>
@@ -291,8 +269,8 @@ if (isset($_SESSION['errors'])
 <?php
 require 'layouts/footer.php';
 ?>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="/../public/js/register.js"></script>
+
 </body>
 </html>

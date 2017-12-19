@@ -4,7 +4,6 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +20,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <title>Login </title>
 </head>
 <body>
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-inverse" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/../views/home.view.php">Dashboard
@@ -33,11 +32,11 @@ if (session_status() == PHP_SESSION_NONE) {
                 && !empty($_SESSION['user_id'])) {
             ?>
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="/../views/updateProfile.view.php">Edit Profile
+                <li id="home"><a href="/../views/home.view.php">Home</a></li>
+                <li id="update"><a href="/../views/updateProfile.view.php">Edit Profile
                     </a>
                 </li>
-                <li><a href="/../../app/twitterapi/getTweets.php">View Tweets
+                <li id="getTweets"><a href="/../../app/twitterapi/getTweets.php">View Tweets
                     </a>
                 </li>
             </ul>

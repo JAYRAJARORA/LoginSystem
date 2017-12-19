@@ -6,5 +6,5 @@ session_start();
 if (isset($_GET['logout'])) {
     $_SESSION = array();
     session_destroy();
-    header("location: /../views/login.view.php");
+    header('location: /../views/login.view.php');
 }

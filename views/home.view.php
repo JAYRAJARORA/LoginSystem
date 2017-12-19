@@ -3,12 +3,11 @@
 require __DIR__ . '/../app/dbConnection.php';
 
 if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
-    $query = "SELECT username,firstname,lastname,role_id FROM users 
-              WHERE id='" . $_SESSION['user_id'] . "' LIMIT 1";
+    $query = "SELECT username,firstname,lastname,role_id,address,city,zip,gender
+              ,email FROM users WHERE id='" . $_SESSION['user_id'] . "' LIMIT 1";
     $user = mysqli_query($db, $query);
     $row = $user->fetch_assoc();
-
-    if (2 === $row['role_id']) {
+    if (2 == $row['role_id']) {
         $query_for_admin = "SELECT username,firstname,lastname,email,address,gender,
                             city,zip FROM users where username!='" . $row['username'] . "' 
                             ORDER BY address DESC LIMIT 10";
@@ -20,7 +19,6 @@ if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
 
 /* styling the page */
 require 'layouts/header.php';
-
 ?>
 
 <div class="container">
@@ -34,17 +32,40 @@ require 'layouts/header.php';
             ?>
             <p>Welcome
                 <span class="text-info">
-                    <b><?php
-                        echo $row['firstname'] .' '. $row['lastname'];
-                        ?>
-                    </b>
+                    <b><?php echo $row['firstname'] .' '. $row['lastname']; ?></b>
                 </span>
             </p>
+            <p>You are
+                <span class="text-info">
+                    <b><?php echo $row['gender'];?></b>
+                </span>
+            </p>
+            <p>Your email address is
+                <span class="text-info">
+                    <b><?php echo $row['email'];?></b>
+                </span>
+            </p>
+            <p>Your residential address is
+                <span class="text-info">
+                    <b><?php echo $row['address'];?></b>
+                </span>
+            </p>
+            <p>Your city is
+                <span class="text-info">
+                    <b><?php echo $row['city'];?></b>
+                </span>
+            </p>
+            <p>Your address pincode is
+                <span class="text-info">
+                    <b><?php echo $row['zip'];?></b>
+                </span>
+            </p>
+
         </div>
     </div>
     <br/>
     <?php
-    if (2 === $row['role_id']
+    if (2 == $row['role_id']
         && ($show_users_for_admin->num_rows > 0)
     ){
     ?>
@@ -86,7 +107,7 @@ require 'layouts/header.php';
         </div>
     </div>
 </div>
-
+<script>$('#home').addClass('active');</script>
 <?php
 require 'layouts/footer.php';
 ?>
