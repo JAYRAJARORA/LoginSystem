@@ -5,7 +5,12 @@ if (!isset($_SESSION)) {
 }
 
 // connecting to database 
-$db = mysqli_connect('localhost', 'root', 'mindfire', 'dashboard');
+$db = mysqli_connect(
+    'localhost',
+    'root',
+    'mindfire',
+    'dashboard'
+);
 
 //checking connection else showing error message.
 if (!$db) {

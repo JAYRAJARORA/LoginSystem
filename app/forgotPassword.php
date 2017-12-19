@@ -1,52 +1,61 @@
 <?php
+/* Load composer's autoloader */
+require __DIR__ . '/../vendor/autoload.php';
+require 'dbConnection.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-//Load composer's autoloader
-require __DIR__ . '/../vendor/autoload.php';
-require 'dbConnection.php';
-
 if ($_POST['email']) {
 
     $email = $_POST['email'];
-    // check if email exists
+    /* check if email exists */
     $sql = "SELECT email from users WHERE email= '$email'";
     $query = mysqli_query($db, $sql);
     $response = [];
-    // if exists update a token no and send this no along with the email
+    /* if exists update a token no and send this no along with the email */
     if ($query->num_rows > 0) {
         $rand_num = mt_rand();
-        $sql = "Update users set forgot_pass_id='$rand_num' where email='$email'";
+        $epoch = time();
+        $date = date("Y-m-d h:i:s", $epoch);
+        $sql = "Update users set forgot_pass_id='$rand_num',".
+            "token_time='$date' where email='$email'";
 
         $query = mysqli_query($db, $sql);
-
 
         if ($query) {
             $response['success'] = "Reset link sent successfully";
             $reset_link = 'http://dashboard.dev/views/resetPassword.view.php?token=' . $rand_num;
-            $epoch = time();
-            $date = date("Y-m-d h:i:s", $epoch);
-            $time_update = "Update users set token_time='$date' where email='$email'";
-            $time_update_query = mysqli_query($db, $sql);
-            $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+            $mail = new PHPMailer(true);
+            /**Server settings:
+             * Passing `true` enables exceptions,
+             * Enable verbose debug output
+             * Set mailer to use SMTP,
+             * Set mailer to use SMTP
+             * Specify main and backup SMTP servers,
+             * Enable SMTP authentication,
+             * SMTP username and password,
+             * Enable TLS encryption,
+             * `ssl` also accepted
+             * TCP port to connect to
+             **/
             try {
-                //Server settings
-                $mail->SMTPDebug = false;                                 // Enable verbose debug output
-                $mail->isSMTP();                                      // Set mailer to use SMTP
-                $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
-                $mail->SMTPAuth = true;                               // Enable SMTP authentication
-                $mail->Username = 'jayraj.arora@gmail.com';                 // SMTP username
-                $mail->Password = 'jayrajarora';                           // SMTP password
-                $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
-                $mail->Port = 465;                                    // TCP port to connect to
+                $mail->SMTPDebug = false;
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'jayraj.arora@gmail.com';
+                $mail->Password = 'jayrajarora';
+                $mail->SMTPSecure = 'ssl';
+                $mail->Port = 465;
 
-                //Recipients
+                /*Recipients */
                 $mail->setFrom('jayraj.arora@gmail.com', 'Mailer');
-                $mail->addAddress($email, 'Jayraj');     // Add a recipient
+                /* add a recipient */
+                $mail->addAddress($email, 'Jayraj');
 
-                //Content
-                $mail->isHTML(true);                                  // Set email format to HTML
+                /*Content : set email format to HTML */
+                $mail->isHTML(true);
                 $mail->Subject = 'Reset password link ';
                 $mail->Body = ' <html>
                     <head></head>
@@ -56,10 +65,7 @@ if ($_POST['email']) {
                         </div>
                     </body>
                     </html>';
-
-
                 $mail->send();
-
 
             } catch (Exception $e) {
                 echo 'Mailer Error: ' . $mail->ErrorInfo;
@@ -71,7 +77,8 @@ if ($_POST['email']) {
         $response['error'] = "Sorry,email doesn't exists";
     }
 }
+
 echo json_encode($response);
 
-?>
+
 

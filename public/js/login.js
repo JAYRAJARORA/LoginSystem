@@ -3,9 +3,9 @@ $(document).ready(function () {
     $('.success_box').hide();
     $('.hide_error').hide();
 
-    // upon submit check for email else do the ajax request
-    /*ajax request sends the email entered and in response
-    gives the error or success message as json
+    /*upon submit check for email else do the ajax request */
+    /** ajax request sends the email entered and in response
+     * gives the error or success message as jso
      */
     $('#forgot_pass_submit').click(function () {
         var modal_email = $('#modal_email').val();

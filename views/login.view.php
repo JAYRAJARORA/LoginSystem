@@ -1,19 +1,18 @@
 <?php
-// starting the session if the session doesnt exist 
+/* starting the session if the session doesnt exist */
 if (!isset($_SESSION)) {
     session_start();
 }
 if (isset($_SESSION['user_id'])) {
     header('Location: home.view.php');
 }
-// styling the page with a navigation bar at the header
+/* styling the page with a navigation bar at the header */
 require 'layouts/header.php';
-// checking for errors if present destroy the session after saving it.
+/* checking for errors if present destroy the session after saving it. */
 if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
     $errors = $_SESSION['login_errors'];
     session_destroy();
 }
-// redirect to the home page
 
 ?>
 <!DOCTYPE html>
@@ -28,63 +27,93 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
     <div class="row">
         <div class=" col-md-offset-4 col-md-4">
             <h2>Sign In</h2>
-            <form name="login" method="post" action="/../app/login.php" onsubmit="return formValidation();">
+            <form name="login"
+                  method="post"
+                  action="/../app/login.php"
+                  onsubmit="return formValidation();">
                 <div class="form-group">
                     <label for="username">Username:</label>
-                    <input type="text" class="form-control" id="username"
-                           placeholder="Enter username" name="username">
+                    <input type="text"
+                           class="form-control"
+                           id="username"
+                           placeholder="Enter username"
+                           name="username">
                     <span class=" hide_username_details help-block"
                           id="username_check">
-                        <label class="control-label">
-                        </label>
+                        <label class="control-label"></label>
                     </span>
-
-                    <?php if (isset($errors['username']) && !empty($errors['username'])) { ?>
-                        <!-- checking for errors if any,showing errors -->
-                        <div class="has-error"><label class="control-label">
-                                <?php echo $errors['username']; ?></label></div>
+                    <?php
+                    if (isset($errors['username'])
+                        && !empty($errors['username'])) {
+                    ?>
+                    <div class="has-error">
+                        <label class="control-label">
+                        <?php echo $errors['username']; ?>
+                        </label>
+                    </div>
                     <?php } ?>
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="password" class="form-control" id="password"
-                           placeholder="Enter password" name="password">
+                    <input type="password"
+                           class="form-control"
+                           id="password"
+                           placeholder="Enter password"
+                           name="password">
                     <span class=" hide_password_details help-block"
                           id="password_error">
                         <label class="control-label">
                         </label>
                     </span>
                     <?php
-                    if (isset($errors['password']) && !empty($errors['password'])) {
+                    if (isset($errors['password'])
+                        && !empty($errors['password'])
+                    ) {
                         ?>
-                        <!-- checking for errors if any,showing errors -->
-                        <div class="has-error"><label class="control-label">
-                                <?php echo $errors['password']; ?></label></div>
-                    <?php } ?>
+                        <div class="has-error">
+                            <label class="control-label">
+                                <?php
+                                echo $errors['password'];
+                                ?>
+                            </label>
+                        </div>
                     <?php
-                    if (isset($errors['invalid']) && !empty($errors['invalid'])) {
+                    }
+                    if (isset($errors['invalid'])
+                        && !empty($errors['invalid'])
+                    ) {
                         ?>
-                        <div class="has-error"><label class="control-label">
-                                <?php echo $errors['invalid']; ?></label></div>
+                        <div class="has-error">
+                            <label class="control-label">
+                                <?php echo $errors['invalid']; ?>
+                            </label>
+                        </div>
                     <?php } ?>
                 </div>
-                <!-- link for signup page for new user-->
+
                 <div class="form-group form-inline">
-                    <button type="submit" class="btn btn-default"
-                            name="login_button" id="submit">Submit
+                    <button type="submit"
+                            class="btn btn-default"
+                            name="login_button"
+                            id="submit">Submit
                     </button>
                     &nbsp; <a href="register.view.php">Create Account</a>
-                    <!--   modal form to forgot password    -->
-                    &nbsp; <a href="#" data-target="#pwdModal" data-toggle="modal">Forgot my password</a>
-                    <!--modal-->
+                    &nbsp; <a href="#"
+                              data-target="#pwdModal"
+                              data-toggle="modal">
+                            Forgot my password</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
 <!--modalform-->
-<div id="pwdModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+<div id="pwdModal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -100,8 +129,8 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <div class="text-center">
-
-                                <p>If you have forgotten your password you can reset it here.</p>
+                                <p>If you have forgotten your password
+                                    you can reset it here.</p>
                                 <div class="panel-body">
                                     <fieldset>
                                         <div class="form-group">
@@ -116,8 +145,6 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
                                             </span>
 
                                         </div>
-                                        <!--                                        <div class="alert alert-danger id="email_error"></div>-->
-
                                         <div class="form-group">
                                             <input class="btn btn-lg btn-primary btn-block"
                                                    value="Send Email"
@@ -138,13 +165,16 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
             </div>
             <div class="modal-footer">
                 <div class="col-md-12">
-                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <button class="btn"
+                            data-dismiss="modal"
+                            aria-hidden="true">
+                        Cancel
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- including the footer style -->
 <?php
 require 'layouts/footer.php';
 ?>
