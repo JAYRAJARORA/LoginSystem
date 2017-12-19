@@ -4,21 +4,17 @@ $(document).ready(function () {
     var alphabet_regex = /^[A-Za-z]+$/;
     $('.hide_firstname_details').hide();
 
-    function firstnameValidate(firstname, alphabet_regex, error) {
+    function firstnameValidate(firstname, alphabet_regex) {
         if ('' === firstname) {
             $("#firstname").parent().addClass('has-error');
             $('#firstname_check').html("Please enter your firstname");
             $('#firstname_check').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         } else if (!alphabet_regex.test(firstname)) {
             $("#firstname").parent().addClass('has-error');
             $('#firstname_check').html("Firstname can contain letters only");
             $('#firstname_check').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         }
     }
 
@@ -35,21 +31,17 @@ $(document).ready(function () {
     // client side validation for lastname
     $('.hide_lastname_details').hide();
 
-    function lastnameValidate(lastname, alphabet_regex, error) {
+    function lastnameValidate(lastname, alphabet_regex) {
         if ('' === lastname) {
             $("#lastname").parent().addClass('has-error');
             $('#lastname_check').html("Please enter your lastname");
             $('#lastname_check').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         } else if (!alphabet_regex.test(lastname)) {
             $("#lastname").parent().addClass('has-error');
             $('#lastname_check').html("Lastname can contain letters only");
             $('#lastname_check').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         }
     }
 
@@ -67,21 +59,17 @@ $(document).ready(function () {
     var email_regex = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i;
     $('.hide_email_details').hide();
 
-    function emailValidate(email, email_regex, error) {
+    function emailValidate(email, email_regex) {
         if ('' === email) {
             $("#email").parent().addClass('has-error');
             $('#email_check').html("Please enter your email");
             $('#email_check').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         } else if (!email_regex.test(email)) {
             $("#email").parent().addClass('has-error');
             $('#email_check').html("Invalid email format");
             $('#email_check').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         }
     }
 
@@ -100,22 +88,17 @@ $(document).ready(function () {
 
     $('.hide_pincode_details').hide();
 
-    function pincodeValidate(pincode, pincode_regex, error) {
+    function pincodeValidate(pincode, pincode_regex) {
         if ('' === pincode) {
             $("#zip").parent().addClass('has-error');
             $('#pincode_check').html("Please enter the pincode");
             $('#pincode_check').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
-
+            return false;
         } else if (!pincode_regex.test(pincode)) {
             $("#zip").parent().addClass('has-error');
             $('#pincode_check').html("Pincode can have digits only");
             $('#pincode_check').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         }
     }
 
@@ -131,21 +114,17 @@ $(document).ready(function () {
     // client side validation for city
     $('.hide_city_details').hide();
 
-    function cityValidate(city, alphabet_regex, error) {
+    function cityValidate(city, alphabet_regex) {
         if ('' === city) {
             $("#city").parent().addClass('has-error');
             $('#city_check').html("Please enter the city");
             $('#city_check').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         } else if (!alphabet_regex.test(city)) {
             $("#city").parent().addClass('has-error');
             $('#city_check').html("City can have letters only");
             $('#city_check').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         }
     }
 
@@ -163,22 +142,20 @@ $(document).ready(function () {
     $('.hide_password_details').hide();
     $('.hide_password_check_details').hide();
 
-    function passwordValidate(password, password_regex, error) {
+    function passwordValidate(password, password_regex) {
         if ('' === password) {
             $("#password").parent().addClass('has-error');
             $('#password_error').html("Please enter your password");
             $('#password_error').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
+
         } else if (!password_regex.test(password)) {
             $("#password").parent().addClass('has-error');
             $('#password_error').html("Password must be at least 8 characters and must contain " +
                 "at least one lower case letter, one upper case letter and one digit");
             $('#password_error').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
+
         }
     }
 
@@ -195,31 +172,27 @@ $(document).ready(function () {
     // client side validation for password again
     var password_check = $('#password_check').val();
 
-    function passwordCheckValidate(password, password_check, password_regex, error) {
+    function passwordCheckValidate(password, password_check, password_regex) {
         if ('' === password_check) {
 
             $("#password_check").parent().addClass('has-error');
             $('#password_check_error').html("Please enter your password again");
             $('#password_check_error').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
 
         } else if (!password_regex.test(password_check)) {
             $("#password_check").parent().addClass('has-error');
             $('#password_check_error').html("Password must be at least 8 characters and must contain " +
                 "at least one lower case letter, one upper case letter and one digit");
             $('#password_check_error').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
+
         } else if (password != password_check) {
             $("#password_check").parent().addClass('has-error');
             $('#password_check_error').html("The two passwords do not match");
             $('#password_check_error').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
+
         }
     }
 
@@ -241,19 +214,18 @@ $(document).ready(function () {
         var email = $('#email').val();
         var pincode = $('#zip').val();
         var city = $('#city').val();
-        var error = {foo: 0};
 
-        firstnameValidate(firstname, alphabet_regex, error);
-        lastnameValidate(lastname, alphabet_regex, error);
-        emailValidate(email, email_regex, error);
-        pincodeValidate(pincode, pincode_regex, error);
-        cityValidate(city, alphabet_regex, error);
-        passwordValidate(password, password_regex, error);
-        passwordCheckValidate(password, password_check, password_regex, error);
-
-        if (error.foo == 1) {
+        if (false === firstnameValidate(firstname, alphabet_regex) ||
+            false === lastnameValidate(lastname, alphabet_regex) ||
+            false === emailValidate(email, email_regex) ||
+            false === pincodeValidate(pincode, pincode_regex) ||
+            false === cityValidate(city, alphabet_regex) ||
+            false === passwordValidate(password, password_regex) ||
+            false === passwordCheckValidate(password, password_check, password_regex)
+        ){
             return false;
         }
+
     });
 });
 

@@ -6,21 +6,17 @@ $(document).ready(function () {
     $('.hide_password_details').hide();
 
 
-    function passwordValidate(password, password_regex, error) {
+    function passwordValidate(password, password_regex) {
         if ('' === password) {
             $("#password").parent().addClass('has-error');
             $('#password_error').html("Password is required");
             $('#password_error').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         } else if (!password_regex.test(password)) {
             $("#password").parent().addClass('has-error');
             $('#password_error').html("Password invalid");
             $('#password_error').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         }
     }
 
@@ -37,28 +33,22 @@ $(document).ready(function () {
     var password_check = $('#password_check').val();
     $('.hide_password_check_details').hide();
 
-    function passwordCheckValidate(password, password_check, password_regex, error) {
+    function passwordCheckValidate(password, password_check, password_regex) {
         if ('' === password_check) {
             $("#password_check").parent().addClass('has-error');
             $('#password_check_error').html("Password is required");
             $('#password_check_error').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         } else if (!password_regex.test(password_check)) {
             $("#password_check").parent().addClass('has-error');
             $('#password_check_error').html("Password is invalid");
             $('#password_check_error').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         } else if (password != password_check) {
             $("#password_check").parent().addClass('has-error');
             $('#password_check_error').html("The two passwords do not match");
             $('#password_check_error').show();
-            if (typeof(error) != "undefined") {
-                error.foo = 1;
-            }
+            return false;
         }
     }
 
@@ -76,11 +66,10 @@ $(document).ready(function () {
     $('#submit').click(function () {
         var password = $('#password').val();
         var password_check = $('#password_check').val();
-        var error = {foo: 0};
-        passwordValidate(password, password_regex, error);
-        passwordCheckValidate(password, password_check, password_regex, error);
-        if (error.foo == 1) {
-            return false;
+        if(false === passwordValidate(password, password_regex)
+            passwordCheckValidate(password, password_check, password_regex)
+        ){
+         return false;
         }
     });
 });

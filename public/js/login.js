@@ -103,8 +103,8 @@ $(document).ready(function () {
     $('#submit').click(function () {
         var username = $('#username').val();
         var password = $('#password').val();
-        if(false == usernameValidate(username, user_regex) ||
-            false == passwordValidate(password, password_regex )){
+        if(false === usernameValidate(username, user_regex) ||
+            false === passwordValidate(password, password_regex )){
          return false;
         }
     });
