@@ -3,13 +3,13 @@
 require __DIR__ . '/../app/dbConnection.php';
 
 if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
-    $query = "SELECT username,firstname,lastname,role_id,address,city,zip,gender
+    $query = "SELECT firstname,lastname,role_id,address,city,zip,gender
               ,email FROM users WHERE id='" . $_SESSION['user_id'] . "' LIMIT 1";
     $user = mysqli_query($db, $query);
     $row = $user->fetch_assoc();
     if (2 == $row['role_id']) {
-        $query_for_admin = "SELECT username,firstname,lastname,email,address,gender,
-                            city,zip FROM users where username!='" . $row['username'] . "' 
+        $query_for_admin = "SELECT email,firstname,lastname,email,address,gender,
+                            city,zip FROM users where email!='" . $row['email'] . "' 
                             ORDER BY address DESC LIMIT 10";
         $show_users_for_admin = mysqli_query($db, $query_for_admin);
     }
@@ -35,27 +35,27 @@ require 'layouts/header.php';
                     <b><?php echo $row['firstname'] .' '. $row['lastname']; ?></b>
                 </span>
             </p>
-            <p>You are
+            <p>Gender:
                 <span class="text-info">
                     <b><?php echo $row['gender'];?></b>
                 </span>
             </p>
-            <p>Your email address is
+            <p>Email Address:
                 <span class="text-info">
                     <b><?php echo $row['email'];?></b>
                 </span>
             </p>
-            <p>Your residential address is
+            <p>Address:
                 <span class="text-info">
                     <b><?php echo $row['address'];?></b>
                 </span>
             </p>
-            <p>Your city is
+            <p>City:
                 <span class="text-info">
                     <b><?php echo $row['city'];?></b>
                 </span>
             </p>
-            <p>Your address pincode is
+            <p>Pincode:
                 <span class="text-info">
                     <b><?php echo $row['zip'];?></b>
                 </span>
@@ -75,7 +75,6 @@ require 'layouts/header.php';
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Username</th>
                     <th>Firstname</th>
                     <th>Lastname</th>
                     <th>Email</th>
@@ -90,7 +89,6 @@ require 'layouts/header.php';
                 while ($row = $show_users_for_admin->fetch_assoc()) {
                 ?>
                 <tr>
-                <td><?php echo $row['username'] ?></td>
                 <td><?php echo $row['firstname']; ?></td>
                 <td><?php echo $row['lastname'] ?></td>
                 <td><?php echo $row['email'] ?></td>

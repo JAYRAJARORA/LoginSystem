@@ -148,12 +148,10 @@ if (isset($_SESSION['errors'])
                               rows="5"
                               id="address"
                               name="address"
-                              placeholder="Enter address here">
-                        <?php
+                              placeholder="Enter address here"><?php
                         if (isset($_SESSION['previous_address'])) {
                             echo $_SESSION['previous_address'];
-                        } ?>
-                    </textarea>
+                        } ?></textarea>
                 </div>
             </div>
             <div class="form-group">

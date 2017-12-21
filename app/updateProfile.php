@@ -37,14 +37,13 @@ if (isset($_POST['submit'])) {
     ) {
         header('Location/../views/home.view.php');
     }
-    /*retrieving username to retrieve the password of that user id. */
+    /*retrieving email to retrieve the password of that user id. */
     /** retrieving email to check email entered is not same
      * as previous email(for checking email already exists)
      * */
-    $query = "SELECT username,email FROM users WHERE id='" . $_SESSION['user_id'] . "'LIMIT 1";
+    $query = "SELECT email FROM users WHERE id='" . $_SESSION['user_id'] . "'LIMIT 1";
     $user = mysqli_query($db, $query);
     $row = $user->fetch_assoc();
-    $username = $row['username'];
     $previous_email = $row['email'];
 
     validateFirstname($errors,$first_name);
@@ -54,7 +53,7 @@ if (isset($_POST['submit'])) {
     }
     /* if field empty then do not update passwords */
     if (!empty($old_password)) {
-        validateOldPassword($db, $errors, $username, $old_password);
+        validateOldPassword($db, $errors, $email, $old_password);
         validateNewPassword($errors, $new_password);
     }
 

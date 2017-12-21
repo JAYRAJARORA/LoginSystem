@@ -22,6 +22,7 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
 
 </head>
 <body>
+<script src="/../public/js/fb.js"></script>
 <div class="container">
     <div class="row">
         <div class=" col-md-offset-4 col-md-4">
@@ -30,15 +31,14 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
                   method="post"
                   action="/../app/login.php">
                 <div class="form-group">
-                    <label for="username">Username:</label>
+                    <label for="email">Email:</label>
                     <input type="text"
                            class="form-control"
-                           id="username"
-                           placeholder="Enter username"
-                           name="username">
-                    <span class=" hide_username_details help-block"
-                          id="username_check">
-                        <label class="control-label"></label>
+                           id="email"
+                           placeholder="Enter email"
+                           name="email">
+                    <span class=" hide_email_details help-block"
+                          id="email_check">
                     </span>
 
                 </div>
@@ -58,23 +58,30 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
                             echo $errors['invalid'];
                         } ?>
                     </span>
-
                 </div>
 
                 <div class="form-group form-inline">
-                    <button type="submit"
-                            class="btn btn-default"
-                            name="login_button"
-                            id="submit">Submit
-                    </button>
-                    &nbsp; <a href="register.view.php">Create Account</a>
-                    &nbsp; <button type="button"
-                              class="btn btn-primary"
-                              data-toggle="modal"
-                              data-target="#pwdModal">Forgot Password
-                      </button>
+                        <button type="submit"
+                                class="btn btn-default"
+                                name="login_button"
+                                id="submit">Submit</button>&nbsp;
+                    &nbsp;   <a href="register.view.php">Create Account </a>&nbsp;
+                        <a href="#" data-toggle="modal"
+                           data-target="#pwdModal">Forgot Password</a>
                 </div>
             </form>
+                <p>OR</p>
+                <div class="fb-login-button"
+                     data-max-rows="1"
+                     data-size="medium"
+                     data-button-type="continue_with"
+                     data-show-faces="false" data-auto-logout-link="false"
+                     data-use-continue-as="false"
+                     scope="public_profile,email"
+                     onlogin="checkLoginState();">
+                </div>
+                <p id="status"></p>
+
         </div>
     </div>
 </div>
@@ -87,39 +94,33 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h3 class="modal-title">Reset Password</h3>
             </div>
-
             <!-- body(form) -->
             <div class="modal-body">
-                <fieldset>
-                    <div class="form-group">
-                        <input class="form-control input-lg"
-                               placeholder="E-mail Address"
-                               name="email"
-                               id="modal_email"
-                               type="email">
-                        <span class=" hide_error help-block"
-                              id="display_errors">
-                            <label class="control-label"></label>
-                        </span>
-
-                    </div>
-                    <div class="form-group">
-                        <input class="btn btn-lg btn-primary btn-block"
-                               value="Send Email"
-                               id="forgot_pass_submit"
-                               type="submit">
-                    </div>
+                <form class="form-inline">
                     <div class="alert alert-success success_box">
-                        <span id="successMessage">
-                            <label class="control-label"></label>
-                        </span>
+                    <span id="successMessage" class="alert alert-success success_box"></span>
                     </div>
-                </fieldset>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                            <input type="email"
+                                   class="form-control"
+                                   id="modal_email"
+                                   placeholder="Enter email"
+                                   name="email">
+                            <span class=" hide_error help-block" id="display_errors">
+                            <label class="control-label"></label>
+                            </span>
+                    </div>
+                </form>
+
 
             </div>
             <!-- footer -->
             <div class="modal-footer">
-                <button class="btn"
+                <button type="submit"
+                        id="forgot_pass_submit"
+                        class="btn btn-default btn-primary">Send Email</button>&nbsp;
+                <button class="btn btn-default btn-danger"
                         data-dismiss="modal"
                         aria-hidden="true">
                     Cancel

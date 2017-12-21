@@ -8,49 +8,6 @@
 namespace fields\error;
 
 /**
- * This method checks the username.
- *
- * @param object $db database to hold connections,
- * @param string $username for checking username
- * @param array $errors reference of errors in username
- *
- * @return void
- */
-function validateUsername($db, &$errors, $username)
-{
-    $err = '';
-
-    if (strlen($username) > 40) {
-        $err .= 'Maximum length exceeded<br>';
-    }
-
-    if (empty($username)) {
-        $err .= 'Username is required<br>';
-    } elseif (
-        !preg_match(
-        '/^[0-9a-zA-Z_]{3,}$/',
-        $username
-        )
-    ) {
-        $err .= 'Username must be bigger than 3 chars and contain only 
-        digits, letters and underscore';
-    } else {
-
-        // checking if user already exists
-        $check_query_name = "SELECT Username FROM users WHERE username = '$username'";
-        $check = mysqli_query($db, $check_query_name);
-
-        if ($check && $check->num_rows) {
-            $err .= 'Username already exists';
-        }
-    }
-
-    if ('' !== $err) {
-        $errors['username'] = $err;
-    }
-}
-
-/**
  * This method checks the firstname.
  *
  * @param string $first_name for checking firstname
@@ -123,15 +80,19 @@ function validateEmail($db,&$errors, $email)
         FILTER_VALIDATE_EMAIL
         )
     ) {
-        $email_err = 'Invalid email format';
         $err .= 'Invalid email';
     } else {
         /* checking for the duplicated email */
-        $check_query_email = "SELECT email FROM users WHERE email = '$email'";
+        $check_query_email = "SELECT id FROM users WHERE email = '$email'";
         $check = mysqli_query($db, $check_query_email);
-
+        $row = $check->fetch_assoc();
+        $id = $row['id'];
         if ($check && $check->num_rows) {
-            $err .= 'Email already exists';
+            if(isset($_SESSION['user_id']) && $id===$_SESSION['user_id']) {
+                $err .= '';
+            } else {
+                $err .= 'Email already exists';
+            }
         }
     }
 
@@ -202,45 +163,67 @@ function validatePasswordCheck(&$errors, $password, $password_check)
  *
  * @param object $db database to hold connections,
  * @param string $password for checking  if password exists
- * @param string $password_check for checking the password again
+ * @param string $email for checking the email
  * @param array $errors reference of errors in password_check
  *
  * @return void
  */
-function validateCombination($db, &$errors, $username, $password)
+function validateCombination($db, &$errors, $email, $password)
 {
-    $err = '';
-    $password = md5($password);
-    $query = "SELECT id FROM users WHERE username='$username' 
-              AND password='$password' LIMIT 1";
-    $query_status = mysqli_query($db, $query);
 
+    $err = '';
+    /**
+     * first check email if it exists,
+     * check if account is logged in via facebook show appropriate error
+     * otherwise just check password and log the user in.
+     */
+    $query = "SELECT id,other_account_login FROM users WHERE email='$email' 
+              LIMIT 1";
+    $query_status = mysqli_query($db, $query);
     if (!$query_status || !$query_status->num_rows) {
-        $err .= 'Wrong Username or Password';
+        $err .= 'Email doesnt exist.Please 
+                 create an account or login with facebook';
         $errors['invalid'] = $err;
     } else {
-        $user_id = $query_status->fetch_assoc();
-        $_SESSION['user_id'] = $user_id['id'];
-        header('Location: /../views/home.view.php');
+        $row = $query_status->fetch_assoc();
+        if ($row['other_account_login'] == 1) {
+            $err .= 'It looks like you’ve previously signed up 
+                     with a Facebook Account. Please sign in using Facebook.';
+            $errors['invalid'] = $err;
+        } elseif($row['other_account_login'] == 0) {
+            $password = md5($password);
+            $login_query = "SELECT id FROM users WHERE password='$password' 
+            AND email='$email' LIMIT 1";
+            $login_query_status = mysqli_query($db, $login_query);
+            if ($login_query_status->num_rows > 0) {
+                $user_id = $login_query_status->fetch_assoc();
+                $_SESSION['user_id'] = $user_id['id'];
+                header('Location: /../views/home.view.php');
+            } else {
+                $err .= 'Wrong Password entered.Please reset 
+                         your password or login with facebook';
+                $errors['invalid'] = $err;
+            }
+        }
     }
 }
 
 /**
- * This method checks the old password and username while changing the password
+ * This method checks the old password and email while changing the password
  *
  * @param object $db database to hold connections,
- * @param string $username for checking the username exists,
+ * @param string $email for checking the email exists,
  * @param string $password for checking  if password exists,
  * @param array $errors reference of errors in password_check
  *
  * @return void
  */
-function validateOldPassword($db, &$errors, $username, $old_password)
+function validateOldPassword($db, &$errors, $email, $old_password)
 {
     $err = '';
     $password = $old_password;
     $password = md5($password);
-    $query = "SELECT id FROM users WHERE username='$username' AND password='$password' LIMIT 1";
+    $query = "SELECT id FROM users WHERE email='$email' AND password='$password' LIMIT 1";
     $query_status = mysqli_query($db, $query);
 
     if (!$query_status || !$query_status->num_rows) {

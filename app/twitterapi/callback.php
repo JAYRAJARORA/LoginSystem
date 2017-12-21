@@ -4,7 +4,9 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 if (!isset($_SESSION['user_id'])) {
     header('Location:/../../views/login.view.php');

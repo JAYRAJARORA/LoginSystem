@@ -9,15 +9,16 @@ $(document).ready(function () {
     function passwordValidate(password, password_regex) {
         if ('' === password) {
             $('#password').parent().addClass('has-error');
-            $('#password_error').html('Password is required');
-            $('#password_error').show();
+            $('#password_error').html('Password is required').show();
             return false;
         } else if (!password_regex.test(password)) {
             $('#password').parent().addClass('has-error');
-            $('#password_error').html('Password invalid');
-            $('#password_error').show();
+            $('#password_error').html('Password is invalid.Password must ' +
+                'be at least 8 characters and must contain at least ' +
+                'one lower case letter, one upper case letter and one digit').show();
             return false;
         }
+        return true;
     }
 
     $('#password').focus(function () {
@@ -29,26 +30,21 @@ $(document).ready(function () {
         passwordValidate(password, password_regex);
     });
 
-    //client side validation for password which is entered again
+    /* client side validation for password which is entered again */
     var password_check = $('#password_check').val();
     $('.hide_password_check_details').hide();
 
     function passwordCheckValidate(password, password_check, password_regex) {
-        if ('' === password_check) {
-            $('#password_check').parent().addClass('has-error');
-            $('#password_check_error').html('Password is required');
-            $('#password_check_error').show();
-            return false;
-        } else if (!password_regex.test(password_check)) {
-            $('#password_check').parent().addClass('has-error');
-            $('#password_check_error').html('Password is invalid');
-            $('#password_check_error').show();
-            return false;
-        } else if (password != password_check) {
-            $('#password_check').parent().addClass('has-error');
-            $('#password_check_error').html('The two passwords do not match');
-            $('#password_check_error').show();
-            return false;
+        if (true === passwordValidate(password, password_regex)) {
+            if ('' === password_check) {
+                $('#password_check').parent().addClass('has-error');
+                $('#password_check_error').html('Password is required').show();
+                return false;
+            } else if (password != password_check) {
+                $('#password_check').parent().addClass('has-error');
+                $('#password_check_error').html('The two passwords do not match').show();
+                return false;
+            }
         }
     }
 
@@ -62,12 +58,12 @@ $(document).ready(function () {
         passwordCheckValidate(password, password_check, password_regex);
     });
 
-    // checking the fields again upon submit
+    /* checking the fields again upon submit */
     $('#submit').click(function () {
         var password = $('#password').val();
         var password_check = $('#password_check').val();
         if(false === passwordValidate(password, password_regex) ||
-            passwordCheckValidate(password, password_check, password_regex)
+            false === passwordCheckValidate(password, password_check, password_regex)
         ){
          return false;
         }

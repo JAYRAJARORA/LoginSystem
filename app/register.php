@@ -5,14 +5,12 @@ require 'errorCheck.php';
 
 use function \fields\error\validateEmail;
 use function \fields\error\validatePassword;
-use function \fields\error\validateUsername;
 use function \fields\error\validateFirstname;
 use function \fields\error\validateLastname;
 use function \fields\error\validatePasswordCheck;
 
 /* checking if form has been submitted */
 if (isset($_POST['signup_button'])) {
-    $username = htmlentities(mysqli_real_escape_string($db, $_POST['username']));
     $email = htmlentities(mysqli_real_escape_string($db, $_POST['email']));
     $password = htmlentities(mysqli_real_escape_string($db, $_POST['password']));
     $first_name = htmlentities(mysqli_real_escape_string($db, $_POST['firstname']));
@@ -25,7 +23,6 @@ if (isset($_POST['signup_button'])) {
     $password_check = htmlentities(mysqli_real_escape_string($db, $_POST['password_check']));
     $errors = array();
 
-    validateUsername($db, $errors, $username);
     validateFirstname($errors, $first_name);
     validateLastname($errors, $last_name);
     validateEmail($db, $errors, $email);
@@ -40,11 +37,10 @@ if (isset($_POST['signup_button'])) {
             header('Location: /../views/register.view.php');
         } else {
             $password = md5($password);
-            $query = "INSERT INTO users (username, email,password,firstname,lastname,".
-                "address,city,gender,state,zip,role_id) VALUES('$username', '$email',".
+            $query = "INSERT INTO users (email,password,firstname,lastname,".
+                "address,city,gender,state,zip,role_id) VALUES('$email',".
                 "'$password','$first_name','$last_name','$address','$city','$gender',".
                 "'$state','$zip',1)";
-
             /*if inserted */
             $query_status = mysqli_query($db, $query);
             echo $query_status;

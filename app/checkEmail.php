@@ -11,14 +11,17 @@ require 'dbConnection.php';
 use function fields\error\validateEmail;
 
 if ($_POST['email']) {
+
     $email = $_POST['email'];
     $errors = array();
     $response = array();
+
     validateEmail($db, $errors, $email);
+
     if($errors) {
         $response['error'] = $errors;
     } else {
-        $response['success'] = 'Email is unique';
+        $response['success'] = 'Email is valid';
     }
     echo json_encode($response);
 }

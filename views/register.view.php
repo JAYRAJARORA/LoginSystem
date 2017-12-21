@@ -35,26 +35,24 @@ if (isset($_SESSION['errors'])
                   method="post"
                   action="/../app/register.php">
                 <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text"
+                    <label for="email">Email:</label>
+                    <input type="email"
                            class="form-control"
-                           id="username"
-                           placeholder="Enter Username"
-                           name="username"
-                           maxlength="40">
-                    <span class="hide_username_details help-block"
-                          id="username_check">
+                           id="email"
+                           placeholder="Enter email"
+                           maxlength="40"
+                           name="email">
+                    <span class="hide_email_details help-block"
+                          id="email_check">
                     </span>
                     <?php
-                    if (isset($errors['username'])
-                        && !empty($errors['username'])) {
-                    ?>
+                    if (isset($errors['email'])
+                        && !empty($errors['email'])
+                    ) {
+                        ?>
                         <div class="has-error">
-                            <label class="control-label"
-                                   id="usererror">
-                            <?php
-                            echo $errors['username'];
-                            ?>
+                            <label class="control-label">
+                                <?php echo $errors['email']; ?>
                             </label>
                         </div>
                     <?php } ?>
@@ -104,29 +102,7 @@ if (isset($_SESSION['errors'])
                     <?php } ?>
                 </div>
 
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email"
-                           class="form-control"
-                           id="email"
-                           placeholder="Enter email"
-                           maxlength="40"
-                           name="email">
-                    <span class="hide_email_details help-block"
-                          id="email_check">
-                    </span>
-                    <?php
-                    if (isset($errors['email'])
-                        && !empty($errors['email'])
-                    ) {
-                        ?>
-                        <div class="has-error">
-                            <label class="control-label">
-                                <?php echo $errors['email']; ?>
-                            </label>
-                        </div>
-                    <?php } ?>
-                </div>
+
 
                 <div class="form-group">
                     <label for="address">Address:</label>
@@ -134,9 +110,7 @@ if (isset($_SESSION['errors'])
                               rows="5"
                               id="address"
                               name="address"
-                              placeholder="Enter address here">
-
-                    </textarea>
+                              placeholder="Enter address here"></textarea>
                 </div>
 
                 <div class="form-group">
@@ -257,9 +231,8 @@ if (isset($_SESSION['errors'])
                             class="btn btn-default"
                             name="signup_button"
                             id="submit">Submit
-                    </button>Already have an account
-                    <a href="login.view.php">
-                    Sign In</a> Here!
+                    </button>
+                    <a href="login.view.php"> Already registered </a>
                 </div>
             </form>
         </div>
