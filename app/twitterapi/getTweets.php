@@ -1,5 +1,4 @@
 <?php
-
 require __DIR__ . '/../../views/layouts/header.php';
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -19,13 +18,11 @@ define('CONSUMER_SECRET', 'ZZ3IwigGTTKDoGYweDSJ0Ifx66vLl8XPxHfk6tUS8Z8nKRstDB');
 define('OAUTH_CALLBACK', 'http://dashboard.dev/app/twitterapi/callback.php');
 
 /**
- * checking if access token not set meaning if user has not logged in to view tweets
- * making connection to the twiiter auth and generating access token and secret key
- * for authentication by redirecting it to callback.php
- * then redirecting the app to authorization url
- * to validate username and password otherwise
- * user already has the token and logged in so make connections
- * and retrieve the tweets
+ * Making connections to the twiiter auth and generating access token and secret key
+ * for authentication by redirecting it to callback.php.
+ * Then redirecting the app to authorization url
+ * to validate username and password otherwise,
+ * user already has the token and is logged in, so retrieve the tweets
  */
 if (!isset($_SESSION['access_token'])) {
     $connection = new TwitterOAuth(
@@ -62,7 +59,7 @@ if (!isset($_SESSION['access_token'])) {
     <div class="row">
         <div class=" col-md-offset-4 col-md-4">
             <h1>Your Tweets</h1>
-            <!-- checking for tweets if any displaying them in a list -->
+            <!-- checking for tweets,if any displaying them in a list -->
             <?php
             if (isset($_SESSION['user_tweets'])
                 && !empty($_SESSION['user_tweets'])
@@ -81,6 +78,6 @@ if (!isset($_SESSION['access_token'])) {
 </div>
 <script>$('#getTweets').addClass('active');</script>
 <?php
-require __DIR__ . '/../../views/layouts/footer.php';;
+require __DIR__ . '/../../views/layouts/footer.php';
 ?>
 

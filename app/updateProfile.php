@@ -41,7 +41,8 @@ if (isset($_POST['submit'])) {
     /** retrieving email to check email entered is not same
      * as previous email(for checking email already exists)
      * */
-    $query = "SELECT email FROM users WHERE id='" . $_SESSION['user_id'] . "'LIMIT 1";
+    $query = "SELECT email FROM users 
+    WHERE id='" . $_SESSION['user_id'] . "'LIMIT 1";
     $user = mysqli_query($db, $query);
     $row = $user->fetch_assoc();
     $previous_email = $row['email'];

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jayraja
- * Date: 18/12/17
- * Time: 12:42 PM
- */
 namespace fields\error;
 
 /**
@@ -24,7 +18,6 @@ function validateFirstname(&$errors, $first_name)
     if (empty($first_name)) {
         $err .= 'FirstName is required<br>';
     }
-
     if ('' !== $err) {
         $errors['firstname'] = $err;
     }
@@ -41,15 +34,12 @@ function validateFirstname(&$errors, $first_name)
 function validateLastname(&$errors, $last_name)
 {
     $err = '';
-
     if (strlen($last_name) > 40) {
         $err .= 'Maximum length exceeded<br>';
     }
-
     if (empty($last_name)) {
         $err .= 'LastName is required<br>';
     }
-
     if ('' !== $err) {
         $errors['lastname'] = $err;
     }
@@ -67,11 +57,9 @@ function validateLastname(&$errors, $last_name)
 function validateEmail($db,&$errors, $email)
 {
     $err = '';
-
     if (strlen($email) > 40) {
         $err .= 'Maximum length exceeded<br>';
     }
-
     if (empty($email)) {
         $err .= 'Email is required<br>';
     } elseif (
@@ -95,7 +83,6 @@ function validateEmail($db,&$errors, $email)
             }
         }
     }
-
     if ('' !== $err) {
         $errors['email'] = $err;
     }
@@ -112,7 +99,6 @@ function validateEmail($db,&$errors, $email)
 function validatePassword(&$errors, $password)
 {
     $err = '';
-
     if (empty($password)) {
         $err .= 'Password is required';
     } elseif (strlen($password) > 30) {
@@ -126,7 +112,6 @@ function validatePassword(&$errors, $password)
         $err .= 'Password must be at least 8 characters and must contain 
                 at least one lower case letter, one upper case letter and one digit';
     }
-
     if ('' !== $err) {
         $errors['password'] = $err;
     }
@@ -151,7 +136,6 @@ function validatePasswordCheck(&$errors, $password, $password_check)
             $err .= 'The two passwords do not match';
         }
     }
-
     if ('' !== $err) {
         $errors['password_check'] = $err;
     }
@@ -190,11 +174,12 @@ function validateCombination($db, &$errors, $email, $password)
             $err .= 'It looks like you’ve previously signed up 
                      with a Facebook Account. Please sign in using Facebook.';
             $errors['invalid'] = $err;
-        } elseif($row['other_account_login'] == 0) {
+        } elseif ($row['other_account_login'] == 0) {
             $password = md5($password);
             $login_query = "SELECT id FROM users WHERE password='$password' 
             AND email='$email' LIMIT 1";
             $login_query_status = mysqli_query($db, $login_query);
+            /* for already registered user  */
             if ($login_query_status->num_rows > 0) {
                 $user_id = $login_query_status->fetch_assoc();
                 $_SESSION['user_id'] = $user_id['id'];

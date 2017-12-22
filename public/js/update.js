@@ -1,5 +1,53 @@
 /* form validation using jquery */
 $(document).ready(function () {
+
+    /* client side validation for email */
+    var email_regex = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i;
+    $('.hide_email_details').hide();
+
+    function emailValidate(email, email_regex) {
+        if ('' === email) {
+            $('#email').parent().addClass('has-error');
+            $('#email_check').html('Please enter your email').show();
+            return false;
+        } else if (!email_regex.test(email)) {
+            $('#email').parent().addClass('has-error');
+            $('#email_check').html('Invalid email format').show();
+            return false;
+        }
+        return true;
+    }
+
+    $('#email').focus(function () {
+        $('#email_check').hide();
+        $('#email').parent().removeClass('has-error');
+    });
+
+    $('#email').blur(function () {
+        var email = $('#email').val();
+
+        if (true ===emailValidate(email, email_regex)) {
+            $.ajax({
+                type : 'POST',
+                url :  '/../../app/checkEmail.php',
+                data : {
+                    email : email
+                },
+                success : function (response) {
+                    var jsonresponse = $.parseJSON(response);
+                    if (jsonresponse !==null) {
+                        if (jsonresponse.hasOwnProperty('error')) {
+                            $('#email').parent().addClass('has-error');
+                            $('#email_check').html(jsonresponse.error.email).show();
+                        } else if (jsonresponse.hasOwnProperty('success')) {
+                        }
+                    }
+                },
+                error : function (response) {
+                }
+            });
+        }
+    });
     /* client side validation for firstname */
     var alphabet_regex = /^[A-Za-z]+$/;
     $('.hide_firstname_details').hide();
@@ -51,61 +99,6 @@ $(document).ready(function () {
         var lastname = $('#firstname').val();
         lastnameValidate(lastname, alphabet_regex);
     });
-
-
-    /* client side validation for email */
-    var email_regex = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i;
-    $('.hide_email_details').hide();
-
-    function emailValidate(email, email_regex) {
-        if ('' === email) {
-            $('#email').parent().addClass('has-error');
-            $('#email_check').html('Please enter your email').show();
-            return false;
-        } else if (!email_regex.test(email)) {
-            $('#email').parent().addClass('has-error');
-            $('#email_check').html('Invalid email format').show();
-            return false;
-        }
-        return true;
-    }
-
-    $('#email').focus(function () {
-        $('#email_check').hide();
-        $('#email').parent().removeClass('has-error');
-    });
-
-    $('#email').blur(function () {
-        var email = $('#email').val();
-
-        if (true ===emailValidate(email, email_regex)) {
-            console.log(email);
-            $.ajax({
-                type : 'POST',
-                url :  '/../../app/checkEmail.php',
-                data : {
-                    email : email
-                },
-                success : function (response) {
-                    console.log(response);
-                    var jsonresponse = $.parseJSON(response);
-                    if (jsonresponse !==null) {
-                        if (jsonresponse.hasOwnProperty('error')) {
-                            console.log(jsonresponse.error.email);
-                            $('#email').parent().addClass('has-error');
-                            $('#email_check').html(jsonresponse.error.email).show();
-                        } else if (jsonresponse.hasOwnProperty('success')) {
-                            console.log(jsonresponse.success);
-                        }
-                    }
-                },
-                error : function (response) {
-                    console.log(response);
-                }
-            });
-        }
-    });
-
 
     /* client side validation for pincode */
     var pincode_regex = /^[0-9]+$/;
@@ -181,7 +174,6 @@ $(document).ready(function () {
         passwordValidate(password, password_regex);
     });
 
-
     /* client side validation for password again */
     function passwordCheckValidate(password, password_check, password_regex) {
         if ('' !== password) {
@@ -216,25 +208,32 @@ $(document).ready(function () {
         var password_check = $('#password_check').val();
         var firstname = $('#firstname').val();
         var lastname = $('#lastname').val();
-        var email = $('#email').val();
         var pincode = $('#zip').val();
         var city = $('#city').val();
         var is_error = true;
 
-        is_error = firstnameValidate(firstname, alphabet_regex);
-        is_error = lastnameValidate(lastname, alphabet_regex);
-        is_error = emailValidate(email, email_regex);
-        is_error = pincodeValidate(pincode, pincode_regex);
-        is_error = cityValidate(city, alphabet_regex) ;
-        is_error = passwordValidate(password, password_regex);
-        is_error = passwordCheckValidate(password, password_check, password_regex);
-        if (true === $('#email_check').is(':visible')) {
+        if (false === firstnameValidate(firstname, alphabet_regex)) {
             is_error = false;
         }
-        if (false === is_error) {
-            return false;
+        if (false === lastnameValidate(lastname, alphabet_regex)) {
+            is_error = false;
+        }
+        if (false === pincodeValidate(pincode, pincode_regex)) {
+            is_error = false;
+        }
+        if (false === cityValidate(city, alphabet_regex)) {
+            is_error = false;
+        }
+        if (false ==passwordValidate(password, password_regex)) {
+            is_error = false;
+        }
+        if (false ===passwordCheckValidate(password, password_check, password_regex)) {
+            is_error = false;
         }
 
+        if (false === is_error) {
+                return false;
+        }
     });
 });
 

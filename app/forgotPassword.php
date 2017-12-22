@@ -13,6 +13,7 @@ if ($_POST['email']) {
     $sql = "SELECT email from users WHERE email= '$email'";
     $query = mysqli_query($db, $sql);
     $response = [];
+
     /* if exists update a token no and send this no along with the email */
     if ($query->num_rows > 0) {
         $rand_num = mt_rand();
@@ -27,9 +28,11 @@ if ($_POST['email']) {
             $response['success'] = 'Reset link sent successfully';
             $reset_link = 'http://dashboard.dev/views/resetPassword.view.php?token=' . $rand_num;
             $mail = new PHPMailer(true);
-            /**Server settings:
+
+            /**
+             * Server settings:
              * Passing `true` enables exceptions,
-             * Enable verbose debug output
+             * Enable verbose debug output,
              * Set mailer to use SMTP,
              * Set mailer to use SMTP
              * Specify main and backup SMTP servers,
@@ -38,7 +41,7 @@ if ($_POST['email']) {
              * Enable TLS encryption,
              * `ssl` also accepted
              * TCP port to connect to
-             **/
+             */
             try {
                 $mail->SMTPDebug = false;
                 $mail->isSMTP();
@@ -66,7 +69,6 @@ if ($_POST['email']) {
                     </body>
                     </html>';
                 $mail->send();
-
             } catch (Exception $e) {
                 echo 'Mailer Error: ' . $mail->ErrorInfo;
             }

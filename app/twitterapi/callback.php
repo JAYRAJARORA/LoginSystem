@@ -1,5 +1,4 @@
 <?php
-
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Abraham\TwitterOAuth\TwitterOAuth;
@@ -22,7 +21,7 @@ define('CONSUMER_SECRET', 'ZZ3IwigGTTKDoGYweDSJ0Ifx66vLl8XPxHfk6tUS8Z8nKRstDB');
 if (isset(
     $_REQUEST['oauth_verifier'],
     $_REQUEST['oauth_token']) &&
-    $_REQUEST['oauth_token'] == $_SESSION['oauth_token']
+    $_REQUEST['oauth_token'] === $_SESSION['oauth_token']
 ) {
     $request_token = [];
     $request_token['oauth_token'] = $_SESSION['oauth_token'];

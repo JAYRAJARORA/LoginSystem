@@ -1,10 +1,10 @@
 <?php
-// starting the session if the session doesnt exist 
+/* starting the session if the session doesnt exist */
 if (!isset($_SESSION)) {
     session_start();
 }
 
-// connecting to database 
+/* connecting to database */
 $db = mysqli_connect(
     'localhost',
     'root',
@@ -12,7 +12,7 @@ $db = mysqli_connect(
     'dashboard'
 );
 
-//checking connection else showing error message.
+/* checking connection else showing error message. */
 if (!$db) {
     echo 'Could\'nt connect to the db';
 }

@@ -4,6 +4,7 @@ require 'dbConnection.php';
 require 'errorCheck.php';
 
 use function fields\error\validateCombination;
+
 /* checking if form has been submitted */
 if (isset($_POST['email'])) {
     $email = htmlentities(mysqli_escape_string($db, $_POST['email']));

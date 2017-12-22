@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     /* client side validation for email */
     var email_regex = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i;
     $('.hide_email_details').hide();
@@ -59,12 +58,11 @@ $(document).ready(function () {
         if(false === is_error) {
             return false;
         }
-        console.log('hello');
     });
 
     /* success and error message for forgot password modal form */
-    $('.success_box').hide();
-    $('.hide_error').hide();
+    $('#successMessage').hide();
+    $('#display_errors').hide();
     /** upon submit check for email else do the ajax request
      * ajax request sends the email entered and in response
      * gives the error or success message as jso
@@ -77,8 +75,8 @@ $(document).ready(function () {
             $('#display_errors').parent().addClass('has-error');
             $('#display_errors').html('Email is required').show();
         } else {
-            $('#forgot_pass_submit').html('<i class="fa fa-spinner fa-spin fa-2x fa-fw"></i>');
-            $('#forgot_pass_submit').attr('disabled','disabled');
+            $('#forgot_pass_submit').html('<i class="fa fa-spinner fa-spin fa-1.5x fa-fw"></i>')
+                .attr('disabled','disabled');
             $.ajax({
                 type: 'POST',
                 url: '/../../app/forgotPassword.php',
@@ -86,48 +84,49 @@ $(document).ready(function () {
                     email: modal_email
                 },
                 success: function (response) {
-                    console.log(response);
                     var jsonresponse = $.parseJSON(response);
-                    console.log(jsonresponse);
                     if (jsonresponse.hasOwnProperty('error')) {
                         $('#display_errors').parent().addClass('has-error');
                         $('#display_errors').addClass('error_response')
                             .html(jsonresponse.error).show();
                     } else if (jsonresponse.hasOwnProperty('success')) {
+                        $('#successMessage').parent().addClass('has-success');
                         $('#successMessage').addClass('success_response')
-                            .html(jsonresponse.success);
-                        $('.success_box').show();
+                            .html(jsonresponse.success).show();
                     }
+                    if ($('span').hasClass('error_response')) {
+                        if ($('.error_response').length) {
+                            $('#forgot_pass_submit').html('Send Email').removeAttr('disabled');
+                            $('span').removeClass('error_response');
+                        }
+                    }
+                    if ($('span').hasClass('success_response')) {
+                        if ($('.success_response').length) {
+                            $('#forgot_pass_submit').html('Send Email').removeAttr('disabled');
+                            $('span').removeClass('success_response');
+                        }
+                    }
+
                 },
                 error: function (response) {
+                    if ($('span').hasClass('error_response')) {
+                        if ($('.error_response').length) {
+                            $('#forgot_pass_submit').html('Send Email').removeAttr('disabled');
+                            $('span').removeClass('error_response');
+                        }
+                    }
                 }
             });
-            /* for retreiving error set less timeout*/
-            setTimeout(function () {
-                if ($('span').hasClass('error_response')) {
-                    if ($('.error_response').length) {
-                        console.log('entre');
-                        $('#forgot_pass_submit').html('Send Email').removeAttr('disabled');
-                        $('span').removeClass('error_response');
-                    }
-                }
-            },2000);
-            /* for retreiving success message set more timeout*/
-            setTimeout(function () {
-
-                if ($('span').hasClass('success_response')) {
-                    if ($('.success_response').length) {
-                        console.log('entre');
-                        $('#forgot_pass_submit').html('Send Email').removeAttr('disabled');
-                        $('span').removeClass('success_response');
-                    }
-                }
-            },9000);
         }
 
         $('#modal_email').focus(function () {
-            $('.hide_error').hide();
+            if ($('#display_errors').parent().hasClass('has-error')) {
+                $('#display_errors').hide();
+                $('#display_errors').parent().removeClass('has-error');
+            } else if ($('#successMessage').parent().hasClass('has-success')) {
+                $('#successMessage').hide();
+                $('#successMessage').parent().removeClass('has-success');
+            }
         });
-
     });
 });

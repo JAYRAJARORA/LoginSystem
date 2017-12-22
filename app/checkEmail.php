@@ -1,15 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jayraja
- * Date: 20/12/17
- * Time: 1:35 AM
- */
 require 'errorCheck.php';
 require 'dbConnection.php';
 
 use function fields\error\validateEmail;
 
+/**
+ * check email coming from the ajax request call the function validate email
+ *  and call validate email and send appropriate message back.
+ */
 if ($_POST['email']) {
 
     $email = $_POST['email'];

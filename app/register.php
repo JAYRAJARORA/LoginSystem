@@ -29,7 +29,8 @@ if (isset($_POST['signup_button'])) {
     validatePassword($errors, $password);
     validatePasswordCheck($errors, $password, $password_check);
 
-        /** if errors are present display the errors in the signup page
+        /**
+         * if errors are present display the errors in the signup page
          *  else insert the record in the db and redirect it to the home page
          */
         if ($errors) {

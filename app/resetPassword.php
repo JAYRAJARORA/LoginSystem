@@ -14,7 +14,8 @@ if (isset($_POST['reset_button'])) {
     validatePassword($errors, $password);
     validatePasswordCheck($errors, $password, $password_check);
 
-    /** if errors present show the errors insert the record in the db and
+    /**
+     * if errors present show the errors insert the record in the db and
      * redirect it to the home page.
      */
     if ($errors) {

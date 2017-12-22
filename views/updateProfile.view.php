@@ -6,11 +6,12 @@ require __DIR__ . '/../app/dbConnection.php';
 
 /* filling the edit profile fields with old fields */
 if (isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])) {
-    $query = "SELECT firstname,lastname,email,address,zip,city,
-              state FROM users WHERE id='" . $_SESSION['user_id'] . "'
+    $query = "SELECT firstname,lastname,email,address,zip,city,other_account_login
+              ,state FROM users WHERE id='" . $_SESSION['user_id'] . "'
               LIMIT 1";
     $user = mysqli_query($db, $query);
     $row = $user->fetch_assoc();
+    $other_account_login = $row['other_account_login'];
     $_SESSION['previous_first_name'] = $row['firstname'];
     $_SESSION['previous_last_name'] = $row['lastname'];
     $_SESSION['previous_email'] = $row['email'];
@@ -246,58 +247,66 @@ if (isset($_SESSION['errors'])
                     </label>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label">OldPassword:
-                </label>
-                <div class="col-md-8">
-                    <input class="form-control"
-                           name="old_password"
-                           id="password"
-                           placeholder="Enter old Password"
-                           type="password">
-                    <?php if (isset($errors['old_password'])
-                        && !empty($errors['old_password'])
-                    ) { ?>
-                        <div class="has-error">
-                            <label class="control-label">
-                            <?php
-                            echo $errors['old_password'];
-                            ?>
-                            </label>
-                        </div>
-                    <?php } ?>
-                    <span class=" hide_password_details help-block"
-                          id="password_error">
+
+                <div class="form-group <?php if (1 == $other_account_login) {
+                    echo 'hidden-field';
+                }
+                ?>">
+                    <label class="col-md-3 control-label">OldPassword:
+                    </label>
+                    <div class="col-md-8">
+                        <input class="form-control"
+                               name="old_password"
+                               id="password"
+                               placeholder="Enter old Password"
+                               type="password">
+                        <?php if (isset($errors['old_password'])
+                            && !empty($errors['old_password'])
+                        ) { ?>
+                            <div class="has-error">
+                                <label class="control-label">
+                                    <?php
+                                    echo $errors['old_password'];
+                                    ?>
+                                </label>
+                            </div>
+                        <?php } ?>
+                        <span class=" hide_password_details help-block"
+                              id="password_error">
                         <label class="control-label">
                         </label>
                     </span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-3 control-label">NewPassword:
-                </label>
-                <div class="col-md-8">
-                    <input class="form-control"
-                           name="new_password"
-                           id="password_check"
-                           type="password"
-                           placeholder="Enter New Password">
-                    <?php if (isset($errors['new_password'])
-                        && !empty($errors['new_password'])
-                    ) { ?>
-                        <div class="has-error">
-                            <label class="control-label">
-                            <?php echo $errors['new_password']; ?>
-                            </label>
-                        </div>
-                    <?php } ?>
-                    <span class=" hide_password_check_details help-block"
-                          id="password_check_error">
+                <div class="form-group <?php if (1 == $other_account_login) {
+                    echo 'hidden-field';
+                }
+                ?>">
+                    <label class="col-md-3 control-label">NewPassword:
+                    </label>
+                    <div class="col-md-8">
+                        <input class="form-control"
+                               name="new_password"
+                               id="password_check"
+                               type="password"
+                               placeholder="Enter New Password">
+                        <?php if (isset($errors['new_password'])
+                            && !empty($errors['new_password'])
+                        ) { ?>
+                            <div class="has-error">
+                                <label class="control-label">
+                                    <?php echo $errors['new_password']; ?>
+                                </label>
+                            </div>
+                        <?php } ?>
+                        <span class=" hide_password_check_details help-block"
+                              id="password_check_error">
                         <label class="control-label">
                         </label>
                     </span>
+                    </div>
                 </div>
-            </div>
+
             <div class="form-group">
                 <label class="col-md-3 control-label">
                 </label>
@@ -317,7 +326,10 @@ if (isset($_SESSION['errors'])
     </div>
 </div>
 <hr>
-<script>$('#update').addClass('active');</script>
+<script>
+    $('#update').addClass('active');
+    $('.hidden-field').hide();
+</script>
 </body>
 </html>
 

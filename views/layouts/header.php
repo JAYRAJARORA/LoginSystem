@@ -1,6 +1,6 @@
 <?php
 
-// checking sessions
+/* checking sessions */
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }

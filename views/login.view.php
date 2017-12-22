@@ -19,7 +19,7 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
 <html>
 <head>
     <title>Login Page</title>
-
+    <link rel="stylesheet" type="text/css" href="/../public/css/resetPage.css">
 </head>
 <body>
 <script src="/../public/js/fb.js"></script>
@@ -97,18 +97,15 @@ if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
             <!-- body(form) -->
             <div class="modal-body">
                 <form class="form-inline">
-                    <div class="alert alert-success success_box">
-                    <span id="successMessage" class="alert alert-success success_box"></span>
-                    </div>
                     <div class="form-group">
+                        <span id="successMessage" class='help-block'></span>
                         <label for="email">Email:</label>
                             <input type="email"
                                    class="form-control"
                                    id="modal_email"
                                    placeholder="Enter email"
                                    name="email">
-                            <span class=" hide_error help-block" id="display_errors">
-                            <label class="control-label"></label>
+                            <span class="help-block" id="display_errors">
                             </span>
                     </div>
                 </form>

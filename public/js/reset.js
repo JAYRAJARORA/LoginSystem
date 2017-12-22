@@ -1,7 +1,7 @@
-// form validation using jquery
+/* form validation using jquery */
 $(document).ready(function () {
 
-    // client side validation for password
+    /* client side validation for password */
     var password_regex = /^.*(?=.{8,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/;
     $('.hide_password_details').hide();
 

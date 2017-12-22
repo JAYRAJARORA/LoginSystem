@@ -83,26 +83,21 @@ $(document).ready(function () {
                  email : email
                },
                success : function (response) {
-                   console.log(response);
                    var jsonresponse = $.parseJSON(response);
                    if (jsonresponse !==null) {
                        if (jsonresponse.hasOwnProperty('error')) {
-                           console.log(jsonresponse.error.email);
                            $('#email').parent().addClass('has-error');
                            $('#email_check').html(jsonresponse.error.email).show();
                        } else if (jsonresponse.hasOwnProperty('success')) {
-                           console.log(jsonresponse.success);
                        }
                    }
                },
                error : function (response) {
-                   console.log(response);
                }
             });
         }
 
     });
-
 
     /* client side validation for pincode */
     var pincode_regex = /^[0-9]+$/;
@@ -145,7 +140,7 @@ $(document).ready(function () {
         }
     }
 
-    // validation upon blur and focus
+    /* validation upon blur and focus */
     $('#city').focus(function () {
         $('#city_check').hide();
         $('#city').parent().removeClass('has-error');
@@ -155,7 +150,7 @@ $(document).ready(function () {
         cityValidate(city, alphabet_regex);
     })
 
-    // client side validation for password
+    /* client side validation for password */
     var password_regex = /^.*(?=.{8,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/;
     $('.hide_password_details').hide();
     $('.hide_password_check_details').hide();
@@ -173,7 +168,7 @@ $(document).ready(function () {
         }
     }
 
-    // validation upon blur and focus
+    /* validation upon blur and focus */
     $('#password').focus(function () {
         $('#password_error').hide();
         $('#password').parent().removeClass('has-error');
@@ -183,8 +178,7 @@ $(document).ready(function () {
         passwordValidate(password, password_regex);
     });
 
-
-    // client side validation for password again
+    /* client side validation for password again */
     var password_check = $('#password_check').val();
 
     function passwordCheckValidate(password, password_check, password_regex) {
@@ -200,7 +194,7 @@ $(document).ready(function () {
         }
     }
 
-    // validation upon blur and focus
+    /* validation upon blur and focus */
     $('#password_check').focus(function () {
         $('#password_check_error').hide();
         $('#password_check').parent().removeClass('has-error');
@@ -211,7 +205,7 @@ $(document).ready(function () {
         passwordCheckValidate(password, password_check, password_regex);
     });
 
-    // checking the fields again upon submit
+    /* checking the fields again upon submit */
     $('#submit').click(function () {
         var password = $('#password').val();
         var password_check = $('#password_check').val();
