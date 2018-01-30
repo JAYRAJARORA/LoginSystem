@@ -1,11 +1,11 @@
-# Coding Guidelines for **RMI**
+# Coding Guidelines for **ProfileApp**
 
-Date: 23rd June 2017
+Date: 25th Jan 2018
 Language: HTML
-This document is applicable only to **RMI**.
+This document is applicable only to **ProfileApp**.
 
 ## Indentation
-Use 2 spaces for indenting HTML and Blade files
+Use 2 spaces for indenting HTML.
 
 ## Document Type
 ```html

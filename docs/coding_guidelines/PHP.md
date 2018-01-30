@@ -1,15 +1,15 @@
-# Coding Guidelines for **RMI**
+# Coding Guidelines for **ProfileApp**
 
-Date: 23rd March 2017
+Date: 25th Jan 2018
 Language: PHP
-This document is applicable only to **RMI**.
+This document is applicable only to **ProfileApp**.
 
 # General
 
 ## Comments
 * Single line comments
 ```php
-/** This is a Single line comment */
+// This is a Single line comment 
 ```
 * Multi line comments
 ```php

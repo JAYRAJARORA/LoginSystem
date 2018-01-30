@@ -230,7 +230,9 @@ $(document).ready(function () {
         if (false ===passwordCheckValidate(password, password_check, password_regex)) {
             is_error = false;
         }
-
+        if (true === $('#email_check').is(':visible')) {
+            is_error = false;
+        }
         if (false === is_error) {
                 return false;
         }

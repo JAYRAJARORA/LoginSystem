@@ -1,8 +1,8 @@
-# Coding Guidelines for **RMI**
+# Coding Guidelines for **ProfileApp**
 
-Date: 23rd June 2017
+Date: 25th Jan 2018
 Language: CSS  
-This document is applicable only to **RMI**.
+This document is applicable only to **ProfileApp**.
 
 ## Structure
 * Use spaces to indent each property.

@@ -26,7 +26,7 @@ if ($_POST['email']) {
 
         if ($query) {
             $response['success'] = 'Reset link sent successfully';
-            $reset_link = 'http://dashboard.dev/views/resetPassword.view.php?token=' . $rand_num;
+            $reset_link = 'http://loginsystem.dev/views/resetPassword.view.php?token=' . $rand_num;
             $mail = new PHPMailer(true);
 
             /**

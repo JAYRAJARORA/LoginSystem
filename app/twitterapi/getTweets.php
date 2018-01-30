@@ -15,7 +15,7 @@ if (!isset($_SESSION['user_id'])) {
 /* consumer key and secret key taken from my twitter app */
 define('CONSUMER_KEY', 'UJ5j8DHdpy2LiFTAi3efopos0');
 define('CONSUMER_SECRET', 'ZZ3IwigGTTKDoGYweDSJ0Ifx66vLl8XPxHfk6tUS8Z8nKRstDB');
-define('OAUTH_CALLBACK', 'http://dashboard.dev/app/twitterapi/callback.php');
+define('OAUTH_CALLBACK', 'http://loginsystem.dev/app/twitterapi/callback.php');
 
 /**
  * Making connections to the twiiter auth and generating access token and secret key
